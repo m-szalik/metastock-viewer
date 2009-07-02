@@ -1,0 +1,311 @@
+package com.gruszecm.mstock.browser;
+
+import java.awt.Component;
+import java.awt.Dimension;
+import java.awt.EventQueue;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.InputEvent;
+import java.awt.event.KeyEvent;
+import java.awt.event.WindowEvent;
+import java.awt.event.WindowListener;
+import java.io.File;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.LinkedHashSet;
+import java.util.List;
+import java.util.Set;
+import java.util.prefs.BackingStoreException;
+import java.util.prefs.Preferences;
+
+import javax.imageio.ImageIO;
+import javax.swing.AbstractAction;
+import javax.swing.Box;
+import javax.swing.ButtonGroup;
+import javax.swing.JDesktopPane;
+import javax.swing.JFileChooser;
+import javax.swing.JFrame;
+import javax.swing.JInternalFrame;
+import javax.swing.JLabel;
+import javax.swing.JMenu;
+import javax.swing.JMenuBar;
+import javax.swing.JMenuItem;
+import javax.swing.JOptionPane;
+import javax.swing.JRadioButtonMenuItem;
+import javax.swing.JSeparator;
+import javax.swing.KeyStroke;
+import javax.swing.ProgressMonitor;
+import javax.swing.RowFilter;
+import javax.swing.event.MenuEvent;
+import javax.swing.event.MenuListener;
+import javax.swing.filechooser.FileFilter;
+
+import org.apache.commons.io.FileUtils;
+
+import com.mac.verec.datafeed.metastock.Reader;
+
+
+
+/**
+ * 
+ * @author szalik
+ */
+public class Browser implements ActionListener, WindowListener {
+	private JMenuItem open = new JMenuItem("Open...", GUIUtil.getIcon("open.png"));
+	private JMenuItem exit = new JMenuItem("Exit", null);
+	private JMenu recent = new JMenu("Recent");
+	private JMenuItem test = new JMenuItem("Test");
+
+	private Preferences  prefs = Preferences.userNodeForPackage(this.getClass());
+
+	static JFrame jFrame;
+	private JFileChooser fileChooser;
+	private File tmp;
+	private JDesktopPane desktop;
+	
+	private Set<String> recentFiles;
+	
+	public Browser()  {
+		recentFiles = new LinkedHashSet<String>();
+		fileChooser = new JFileChooser(new File(prefs.get("path", ".")));
+		fileChooser.setFileFilter(new FileFilter() {
+			@Override
+			public boolean accept(File f) {
+				String name = f.getName().toLowerCase();
+				boolean meta=(name.endsWith(".zip") && name.startsWith("meta"));
+				return f.isDirectory() || meta;
+			}
+
+			@Override
+			public String getDescription() {
+				return "metastock";
+			}
+		});
+		File tmp = new File(System.getProperty("java.io.tmpdir", "/tmp"));
+		this.tmp = new File(tmp, "metastockBrowser");
+		// add recent files
+		for(int r=0; r<prefs.getInt("recent", 0); r++) {
+			String fn = prefs.get("recent_" + r, "");
+			if (fn.length()==0) continue;
+			File f = new File(fn);
+			if (f.canRead()) addToRecent(f, false);
+		}
+		
+		
+		jFrame = new JFrame("Metastock browser");
+		jFrame.setJMenuBar(getMenu());
+		desktop = new JDesktopPane();
+		jFrame.getContentPane().add(desktop);
+		jFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		jFrame.setSize(new Dimension(600, 500));
+		jFrame.addWindowListener(this);
+		try {
+			jFrame.setIconImage(ImageIO.read(getClass().getResourceAsStream("/icon/browser.gif")));
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		jFrame.setVisible(true);
+	}
+	
+	public static void main(String[] args) throws Exception {
+		new Browser();
+	}
+
+	private JMenuBar getMenu() {
+		JMenuBar menu = new JMenuBar();
+//		open.set
+		JMenu fileMI = new JMenu("File");
+		fileMI.setMnemonic(KeyEvent.VK_F);
+		fileMI.add(open);
+		open.setMnemonic(KeyEvent.VK_O);
+		open.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_F3, 0));
+		fileMI.add(recent);
+		menu.add(fileMI);
+		ButtonGroup group = new ButtonGroup();
+		JMenu filter = new JMenu("Filters");
+		filter.setMnemonic(KeyEvent.VK_T);
+		addFilterToMenu(filter, group, "none (no filter)", DataFilter.NONE, KeyEvent.VK_1);
+		addFilterToMenu(filter, group, "all (all invalid)", DataFilter.ALL_INVALID, KeyEvent.VK_2);
+		addFilterToMenu(filter, group, "one (one or more invalid)", DataFilter.ONE_INVALID, KeyEvent.VK_3);
+		((JRadioButtonMenuItem) group.getElements().nextElement()).setSelected(true);
+		fileMI.add(new JSeparator());
+		fileMI.add(exit);
+		menu.add(filter);
+		exit.addActionListener(this);
+		exit.setMnemonic(KeyEvent.VK_X);
+		open.addActionListener(this);
+		final JMenu testMenu = new JMenu("Test");
+		testMenu.addMenuListener(new MenuListener() {
+			public void menuCanceled(MenuEvent e) {
+			}
+			public void menuDeselected(MenuEvent e) {
+			}
+			public void menuSelected(MenuEvent e) {
+				testMenu.removeAll();
+				List<MasterFrame> masterFrames = new ArrayList<MasterFrame>();
+				for (Component co : desktop.getComponents()) {
+					if (co instanceof MasterFrame) masterFrames.add((MasterFrame) co);
+				}
+				Collections.sort(masterFrames);
+				if (masterFrames.isEmpty()) {
+					testMenu.add(new JLabel("No metastocks."));
+				} else {
+					for(final MasterFrame mf : masterFrames) {
+						JMenuItem item = new JMenuItem(mf.getFile().getName());
+						item.addActionListener(new ActionListener(){
+							public void actionPerformed(ActionEvent e) {
+								new TestFrame(mf, desktop, mf.getReader());
+							}
+						});
+						testMenu.add(item);
+					} // for
+				}
+			}
+		});
+		menu.add(testMenu);
+		JMenu help = new JMenu("Help");
+		help.setMnemonic(KeyEvent.VK_H);
+		JMenuItem aboutMI = new JMenuItem(new AbstractAction("About"){
+			private static final long serialVersionUID = -470524606409942575L;
+			public void actionPerformed(ActionEvent e) {
+				Runnable runnable = new Runnable() {
+				      public void run() {     JOptionPane.showMessageDialog(jFrame, "Metastock viewer by szalik. :-)", "About...", JOptionPane.INFORMATION_MESSAGE);     }
+			    };
+				EventQueue.invokeLater(runnable);
+			}
+		});
+		help.add(aboutMI);
+		aboutMI.setMnemonic(KeyEvent.VK_U);
+		menu.add(Box.createHorizontalGlue());
+		menu.add(help);
+		return menu;
+	}
+
+	private void addFilterToMenu(JMenu addTo, ButtonGroup group,	String label, final RowFilter<DataTableModel, Integer> filter, int key) {
+		JRadioButtonMenuItem rb = new JRadioButtonMenuItem(label);
+		rb.setAccelerator(KeyStroke.getKeyStroke(key, InputEvent.CTRL_MASK));
+		addTo.add(rb);
+		group.add(rb);
+		rb.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				DataFrame.setFilterType(filter, desktop);
+			}
+		});
+	}
+
+	public void actionPerformed(ActionEvent e) {
+		if (e.getSource() == open) {
+			int returnVal = fileChooser.showOpenDialog(Browser.jFrame);
+	        if (returnVal == JFileChooser.APPROVE_OPTION) {
+	            File file = fileChooser.getSelectedFile();
+				if (loadMetastockFile(file)) {
+					addToRecent(file, true);
+				}
+	        } else {
+	            System.out.println("Open command cancelled by user.");
+	        }
+		}
+		if (e.getSource() == exit) {
+			exit();			
+		}
+		if (e.getSource() == test) {
+			JInternalFrame f = desktop.getSelectedFrame();
+			System.out.println("Selected frame " + f);
+			if (f instanceof MasterFrame) {
+				Reader r = ((MasterFrame) f).getReader(); 
+				final TestFrame testFrame = new TestFrame(f, desktop, r);
+				testFrame.setTitle("Tests of " + f.getTitle());
+				testFrame.pack();
+				testFrame.setVisible(true);
+				desktop.add(testFrame);
+				Thread thread = new Thread(new Runnable() {
+					public void run() {
+						testFrame.doTests();
+					}
+				});
+				thread.setName("testMaker");
+				thread.setDaemon(false);
+				thread.start();
+			}
+		}
+	}
+
+	private boolean loadMetastockFile(File zipFile) {
+		ProgressMonitor processMonitor = new ProgressMonitor(jFrame, "Processing " + zipFile.getName() + "...", "", 0, 100);
+		Object errorMessage = null;
+		try {
+			System.out.println("Open command - " + zipFile.getAbsolutePath() + ".");
+			int i = 0;
+			File dir;
+			do {
+				dir = new File(tmp, "metastockviewer-" + i);
+				i++;
+			} while (dir.exists());
+			processMonitor.setMaximum(2*i);
+			processMonitor.setProgress(i);
+			MasterFrame frame = new MasterFrame(dir, zipFile, desktop, processMonitor);
+	        frame.setVisible(true);
+	        frame.pack();
+	        desktop.add(frame);
+		} catch (NegativeArraySizeException e) {
+			errorMessage = "Niepoprawny plik zip.";
+		} catch (Throwable throwable) {
+			throwable.printStackTrace();
+			errorMessage = throwable.getMessage() != null ? throwable.getMessage() : throwable.getClass().getSimpleName();
+		} finally {
+			processMonitor.setMaximum(-1);
+		}
+		if (errorMessage != null) {
+			JOptionPane.showMessageDialog(jFrame, errorMessage, "Error!", JOptionPane.ERROR_MESSAGE);
+			return false;
+		} else {
+			return true;
+		}
+	}
+	
+	private void addToRecent(final File file, boolean update)  {
+		if (! recentFiles.contains(file.getAbsolutePath())) {
+			recentFiles.add(file.getAbsolutePath());
+			JMenuItem mi = new JMenuItem(file.getAbsolutePath());
+			mi.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent e) {
+					loadMetastockFile(file);
+				}
+			});
+			recent.add(mi);
+			if (update) {
+				prefs.putInt("recent", recentFiles.size());
+				int r=0;
+				for(String fn : recentFiles) prefs.put("recent_" + (r++), fn);
+				prefs.put("path", file.getParentFile().getAbsolutePath());
+				try {	prefs.flush();		} catch (BackingStoreException e1) {e1.printStackTrace();}
+			}
+		}
+	}
+
+	
+	
+	public void windowActivated(WindowEvent e) {	
+	}
+	public void windowClosed(WindowEvent e) {
+		exit();
+	}
+	public void windowClosing(WindowEvent e) {
+	}
+	public void windowDeactivated(WindowEvent e) {
+	}
+	public void windowDeiconified(WindowEvent e) {
+	}
+	public void windowIconified(WindowEvent e) {
+	}
+	public void windowOpened(WindowEvent e) {		
+	}
+	
+	private void exit() {
+		if (tmp.exists()) {
+			try {	FileUtils.forceDelete(tmp);	} catch (IOException e1) {	}
+		}
+		System.exit(0);
+	}
+}
