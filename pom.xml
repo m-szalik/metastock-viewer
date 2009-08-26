@@ -17,7 +17,7 @@
   </dependencies>
   
   <build>
-  	     <plugins>
+       <plugins>
            <plugin>
                    <artifactId>maven-compiler-plugin</artifactId>
                    <version>2.0.2</version>
@@ -42,6 +42,13 @@
           		  </archive>
         		</configuration>
 	      	</plugin>    
-		</plugins>
+	</plugins>
   </build>
+  
+  <scm>
+	<url>svn://jsoftware.org/grucha/metstockViewer/trunk</url>
+	<connection>scm:svn:svn://jsoftware.org/grucha/metstockViewer/trunk</connection>
+	<developerConnection>scm:svn:svn://jsoftware.org/grucha/metstockViewer/trunk</developerConnection>
+  </scm>
+
 </project>
