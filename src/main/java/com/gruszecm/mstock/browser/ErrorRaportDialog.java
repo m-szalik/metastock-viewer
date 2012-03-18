@@ -68,7 +68,7 @@ public class ErrorRaportDialog extends JDialog implements ActionListener {
 		}
 		if (e.getSource() == buttonSave) {
 		    JFileChooser fileChooser = new JFileChooser(System.getProperty("user.dir")); 
-		    fileChooser.setSelectedFile(new File("matastockViewer-log.xml"));
+		    fileChooser.setSelectedFile(new File("metastockViewer-log.xml"));
 		    switch (fileChooser.showSaveDialog(this)) {
 			case JFileChooser.APPROVE_OPTION:
 				File file = fileChooser.getSelectedFile();
