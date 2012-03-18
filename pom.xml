@@ -3,7 +3,7 @@
   <groupId>com.gruszecm</groupId>
   <artifactId>metastockViewer</artifactId>
   <packaging>jar</packaging>
-  <version>1.1</version>
+  <version>1.1-SNAPSHOT</version>
   <name>metastockViewer</name>
   <url>http://metastock.jsoftware.org</url>
 
