@@ -1,9 +1,12 @@
 package com.gruszecm.mstock.browser;
 
+import java.awt.Color;
 import java.awt.Component;
 import java.util.Date;
 
 import javax.swing.JDesktopPane;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.RowFilter;
@@ -49,15 +52,24 @@ public class DataFrame extends AbstractBrowserFrame {
 
 	private void init() {
 		setTitle("Data for " + instrument.name + " (" + instrument.symbol + ")");
-		table = new JTable(new DataTableModel(instrument));
-		table.setDefaultRenderer(Date.class, new DateRenderer("yyyy-MM-dd EEE", "yyyy-MM-dd HH:mm:ss"));
-		table.setDefaultRenderer(NumberDate.class, new DateRenderer("yyyy-MM-dd EEE", "yyyy-MM-dd HH:mm:ss"));
-		table.setDefaultRenderer(Float.class, new FloatRenderer());
-		table.setAutoResizeMode(JTable.AUTO_RESIZE_ALL_COLUMNS);
-		table.setAutoCreateRowSorter(true);
-		setFilterTypeUpdate();
-		JScrollPane pane = new JScrollPane(table);
-		getContentPane().add(pane);
+		if (instrument.quotes == null || instrument.quotes.length == 0) {
+			JPanel panel = new JPanel();
+			panel.setSize(300, 100);
+			JLabel jlabel = new JLabel("No data found for \"" + instrument.name + "\".");
+			panel.add(jlabel);
+			panel.setBackground(Color.RED);
+			getContentPane().add(panel);
+		} else {
+			table = new JTable(new DataTableModel(instrument));
+			table.setDefaultRenderer(Date.class, new DateRenderer("yyyy-MM-dd EEE", "yyyy-MM-dd HH:mm:ss"));
+			table.setDefaultRenderer(NumberDate.class, new DateRenderer("yyyy-MM-dd EEE", "yyyy-MM-dd HH:mm:ss"));
+			table.setDefaultRenderer(Float.class, new FloatRenderer());
+			table.setAutoResizeMode(JTable.AUTO_RESIZE_ALL_COLUMNS);
+			table.setAutoCreateRowSorter(true);
+			setFilterTypeUpdate();
+			JScrollPane pane = new JScrollPane(table);
+			getContentPane().add(pane);
+		}
 		setVisible(true);
 		pack();
 	}

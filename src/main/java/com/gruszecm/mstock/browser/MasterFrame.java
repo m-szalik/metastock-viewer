@@ -7,6 +7,7 @@ import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.Date;
+import java.util.List;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipInputStream;
 
@@ -23,7 +24,6 @@ import com.mac.verec.models.Instrument;
 import com.mac.verec.models.NumberDate;
 
 public class MasterFrame extends AbstractBrowserFrame implements MouseListener, Comparable<MasterFrame>{
-
 	private MasterTabModel model;
 	private Reader reader;
 	private File file;
@@ -36,7 +36,7 @@ public class MasterFrame extends AbstractBrowserFrame implements MouseListener, 
 		return file;
 	}
 	
-	public MasterFrame(File dir, File file, JDesktopPane desktopPane, ProgressMonitor progressMonitor) throws IOException {
+	public MasterFrame(File dir, File file, JDesktopPane desktopPane, ProgressMonitor progressMonitor, List<ErrorRecord> errorRecords) throws IOException, InterruptedException {
 		super(null, desktopPane);
 		this.file = file;
 		setTitle("Index of " + file.getAbsolutePath());
@@ -54,13 +54,17 @@ public class MasterFrame extends AbstractBrowserFrame implements MouseListener, 
 				FileOutputStream out = new FileOutputStream(f);
 				IOUtils.copy(stream, out);
 				progressMonitor.setProgress(processc);
+				if (progressMonitor.isCanceled()) {
+					throw new InterruptedException();
+				}
 			}
 		} finally {
 			IOUtils.closeQuietly(stream);
 		}
-		Reader reader = new Reader(dir.getAbsolutePath() + "/", true, progressMonitor);
+		Reader reader = new Reader(dir.getAbsolutePath() + "/", true, progressMonitor, errorRecords);
 		model = new MasterTabModel(reader);
 		JTable table = new JTable(model);
+		table.setToolTipText("Double click on instrument row to see data.");
 		table.addMouseListener(this);
 		table.setDefaultRenderer(Date.class, new DateRenderer("yyyy-MM-dd", "yyyy-MM-dd HH:mm:ss"));
 		table.setDefaultRenderer(NumberDate.class, new DateRenderer("yyyy-MM-dd", "yyyy-MM-dd HH:mm:ss"));
@@ -85,6 +89,7 @@ public class MasterFrame extends AbstractBrowserFrame implements MouseListener, 
 			Instrument instrument = model.getInstrument(index);
 			DataFrame dataFrame = new DataFrame(this, desktop, instrument);
 			desktop.add(dataFrame);
+			desktop.moveToFront(dataFrame);
 		}
 	}
 	public void mouseEntered(MouseEvent e) {	
@@ -98,5 +103,4 @@ public class MasterFrame extends AbstractBrowserFrame implements MouseListener, 
 	public int compareTo(MasterFrame o) {
 		return this.file.compareTo(o.file);
 	}
-
 }

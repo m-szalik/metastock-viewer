@@ -7,11 +7,13 @@ import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.Enumeration;
+import java.util.List;
 import java.util.Vector;
 import java.util.concurrent.atomic.AtomicInteger;
 
 import javax.swing.ProgressMonitor;
 
+import com.gruszecm.mstock.browser.ErrorRecord;
 import com.mac.verec.models.Instrument;
 import com.mac.verec.models.NumberDate;
 import com.mac.verec.models.Quote;
@@ -56,6 +58,8 @@ public class Reader {
 	private	Instrument[]		instruments ;
 	
 	protected String path;
+
+	private List<ErrorRecord> errorRecords;
 	
 	/**
 	 * Only of interest to subclasses. Needed to provide the right kind of
@@ -100,9 +104,8 @@ public class Reader {
 	 * itself as this is where we're going to locate the <code>MASTER</code> file
 	 * that contains the layout and semantics of the whole shebang.
 	 */
-	public
-	Reader(String	path, ProgressMonitor procssMonitor) {
-		this(path, false, procssMonitor) ;
+	public Reader(String path, ProgressMonitor procssMonitor, List<ErrorRecord> errorRecords) {
+		this(path, false, procssMonitor, errorRecords) ;
 	}
 
 	/**
@@ -110,8 +113,10 @@ public class Reader {
 	 * itself as this is where we're going to locate the <code>MASTER</code> file
 	 * that contains the layout and semantics of the whole shebang.
 	 * @param progressMonitor 
+	 * @param errorRecords 
 	 */
-	public Reader(String	path,boolean dump, ProgressMonitor progressMonitor) {
+	public Reader(String path,boolean dump, ProgressMonitor progressMonitor, List<ErrorRecord> errorRecords) {
+		this.errorRecords = errorRecords;
 		if (progressMonitor != null) {
 			progressMonitor.setProgress(0);
 			progressMonitor.setNote("Reading MASTER file...");
@@ -231,6 +236,9 @@ public class Reader {
 		int[]		dateLimit = new int[instrumentCount] ;		
 		
 		for (int i = 0 ; i < instrumentCount ; ++i) {
+			if (instruments[i].rawQuotes == null || instruments[i].rawQuotes.length == 0) {
+				continue;
+			}
 			dateIndex[i] = 0 ;
 			dateLimit[i] = instruments[i].rawQuotes.length ;
 			newQuotes[i] = createQuoteArray(dayCount) ;
@@ -242,6 +250,9 @@ public class Reader {
 
 			for (int i = 0 ; i < instrumentCount ; ++i) {
 				Quote[]	raw = instruments[i].rawQuotes ;
+				if (raw == null || raw.length == 0) {
+					continue;
+				}
 				// look for a matching date, if found, add it to the new
 				// array, otherwise add the MARKER
 				
@@ -286,6 +297,9 @@ public class Reader {
 		// determine the bounds
 		for (int i = 0 ; i < instrumentCount ; ++i) {
 			Quote[]	raw = instruments[i].rawQuotes ;
+			if (raw == null || raw.length == 0) {
+				continue;
+			}
 			Date	first = raw[0].date ;
 			Date	last = raw[raw.length -1].date ;
 			
@@ -340,6 +354,10 @@ public class Reader {
 
 		try {
 			File	in = new File(dataPath + r.getFileName()) ;
+			if (! in.exists()) {
+				errorRecords.add(ErrorRecord.warn("Data file (" + r.getFileName() + ") for " + r.getSymbol() + " is missing."));
+				return new Quote[0];
+			}
 			byte[]	data = Parser.readFrom(in) ;
 			int		length = data.length ;
 			int		quoteCount = (length / r.recordLength) - 1 ;
@@ -399,8 +417,8 @@ public class Reader {
 	/**
 	 * Returns an <code>Enumeration</code> that lists all the <code>Instrument</code>s.
 	 */
-	public Enumeration
-	getInstruments() {
+	@SuppressWarnings("rawtypes")
+	public Enumeration getInstruments() {
 		return new Enumeration() {
 			int	index = 0 ;
 			public boolean hasMoreElements() {
