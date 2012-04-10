@@ -99,7 +99,7 @@ public class ErrorRaportDialog extends JDialog implements ActionListener {
 					continue;
 				}
 				Object val = System.getProperty(key.toString());
-				fw.append("\t\t<entry><key>" + key + "</key><value>" + val + "</val></entry>\n");
+				fw.append("\t\t<entry><key>" + key + "</key><value>" + val + "</value></entry>\n");
 			}
 		fw.append("\t</evn>\n");
 		fw.append("\t<entries>\n");
