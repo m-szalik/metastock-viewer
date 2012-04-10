@@ -23,8 +23,7 @@ public class GUIUtil {
 			InputStream input = GUIUtil.class.getResourceAsStream(path);
 			return ImageIO.read(input);
 		} catch (IOException e) {
-			e.printStackTrace();  return null;
-//			throw new RuntimeException("error reding image", e);
+			throw new RuntimeException("Error reading image \"" + path + "\".", e);
 		} 		
 	}
 }
