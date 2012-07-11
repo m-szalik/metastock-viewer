@@ -18,6 +18,7 @@
 
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    <eclipse.downloadSources>true</eclipse.downloadSources>
   </properties>
 	   
   
@@ -46,7 +47,16 @@
             		</manifest>
           		  </archive>
         		</configuration>
-	      	</plugin>    
+	      	</plugin>
+	      	<plugin>
+			<groupId>org.apache.maven.plugins</groupId>
+			<artifactId>maven-eclipse-plugin</artifactId>
+			<configuration>
+				<projectNameTemplate>[artifactId]</projectNameTemplate>
+				<workspace>${basedir}</workspace>
+				<workspaceCodeStylesURL>http://jsoftware.org/files/intami-eclipse-formatter.xml</workspaceCodeStylesURL>
+			</configuration>
+		</plugin>
 	</plugins>
 	
 	<resources>
