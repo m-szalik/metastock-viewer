@@ -3,7 +3,7 @@
   <groupId>com.gruszecm</groupId>
   <artifactId>metastockViewer</artifactId>
   <packaging>jar</packaging>
-  <version>1.2-SNAPSHOT</version>
+  <version>1.2</version>
   <name>metastockViewer</name>
   <url>http://metastock.jsoftware.org</url>
 
@@ -97,9 +97,9 @@
   </build>
   
   <scm>
-	<url>svn://jsoftware.org/grucha/metstockViewer/tags/metastockViewer-1.1</url>
-	<connection>scm:svn:svn://jsoftware.org/grucha/metstockViewer/tags/metastockViewer-1.1</connection>
-	<developerConnection>scm:svn:svn://jsoftware.org/grucha/metstockViewer/tags/metastockViewer-1.1</developerConnection>
+	<url>svn://jsoftware.org/grucha/metstockViewer/tags/metastockViewer-1.2</url>
+	<connection>scm:svn:svn://jsoftware.org/grucha/metstockViewer/tags/metastockViewer-1.2</connection>
+	<developerConnection>scm:svn:svn://jsoftware.org/grucha/metstockViewer/tags/metastockViewer-1.2</developerConnection>
   </scm>
 
 </project>
