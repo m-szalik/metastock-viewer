@@ -34,25 +34,20 @@ public class TestFrame extends AbstractBrowserFrame {
 	private Reader reader;
 	private JTable table;
 	private JMenuItem copyTestRaportToClipboard;
-	
-	private AbstractMstockTest[] tests = new AbstractMstockTest[] {
-			new DateFirstTest(false), new DateLastTest(false),
-			new DateFirstTest(true), new DateLastTest(true), 
-			new QuotValueTest(), new QuotMinMaxTest(), new DatNoOfRecordsTest()
-	};
-	
-	
-	@SuppressWarnings("unchecked")
+
+	private AbstractMstockTest[] tests = new AbstractMstockTest[] { new DateFirstTest(false), new DateLastTest(false), new DateFirstTest(true), new DateLastTest(true), new QuotValueTest(), new QuotMinMaxTest(), new DatNoOfRecordsTest() };
+
 	public TestFrame(JInternalFrame parent, JDesktopPane desktopPane, Reader reader) {
 		super(parent, desktopPane);
 		setTitle("Test results");
 		this.reader = reader;
-		String[] colNames = new String[tests.length+1];
+		String[] colNames = new String[tests.length + 1];
 		colNames[0] = "instrument";
-		for(int i=1; i<colNames.length; i++) colNames[i] = tests[i -1].getName();
+		for (int i = 1; i < colNames.length; i++)
+			colNames[i] = tests[i - 1].getName();
 		Object[][] data = new Object[reader.getInstrumentCount()][colNames.length];
 		int y = 0;
-		for(Enumeration<Instrument> en = reader.getInstruments(); en.hasMoreElements(); y++) {
+		for (Enumeration<Instrument> en = reader.getInstruments(); en.hasMoreElements(); y++) {
 			Instrument instrument = en.nextElement();
 			data[y][0] = instrument.name;
 		}
@@ -65,7 +60,7 @@ public class TestFrame extends AbstractBrowserFrame {
 		setVisible(true);
 		pack();
 		this.reader = reader;
-		
+
 		JMenuBar menuBar = new JMenuBar();
 		JMenu menuFile = new JMenu("File");
 		menuFile.setMnemonic(KeyEvent.VK_F);
@@ -79,8 +74,9 @@ public class TestFrame extends AbstractBrowserFrame {
 				testRaport(output);
 				Transferable contents = new StringSelection(output.getBuffer().toString());
 				Toolkit.getDefaultToolkit().getSystemClipboard().setContents(contents, new ClipboardOwner() {
-					public void lostOwnership(Clipboard clipboard, Transferable contents) {	}
-				});				
+					public void lostOwnership(Clipboard clipboard, Transferable contents) {
+					}
+				});
 			}
 		});
 		menuBar.add(menuFile);
@@ -96,21 +92,19 @@ public class TestFrame extends AbstractBrowserFrame {
 		};
 		thread.start();
 	}
-	
-
-
 
 	private void testRaport(StringWriter output) {
 		output.append("Test of ...").append('\n').append('\n');
-		for (int y=0; y<table.getRowCount(); y++) {
-			for (int x=0; x<table.getColumnCount(); x++) {
-				Object value = table.getValueAt(y,x);
+		for (int y = 0; y < table.getRowCount(); y++) {
+			for (int x = 0; x < table.getColumnCount(); x++) {
+				Object value = table.getValueAt(y, x);
 				output.append(table.getColumnName(x));
 				output.append(": ");
 				output.append(value.toString());
 				if (value instanceof TestResult) {
 					TestResult tr = (TestResult) value;
-					if (! tr.isImportant()) output.append(" (you can ignore this test result)");
+					if (!tr.isImportant())
+						output.append(" (you can ignore this test result)");
 				}
 				output.append('\n');
 			}
@@ -120,19 +114,18 @@ public class TestFrame extends AbstractBrowserFrame {
 	}
 
 
-
-	@SuppressWarnings("unchecked")
 	public void doTests() {
 		int wrongTestCounter = 0;
-		int y=0;
+		int y = 0;
 		Enumeration<Instrument> en = reader.getInstruments();
-		for(; en.hasMoreElements(); y++) {
+		for (; en.hasMoreElements(); y++) {
 			Instrument instrument = en.nextElement();
-			for(int x=0; x<tests.length; x++) {
+			for (int x = 0; x < tests.length; x++) {
 				AbstractMstockTest test = tests[x];
 				TestResult tr = test.test(instrument);
-				if (! tr.isOk()) wrongTestCounter++;
-				table.setValueAt(tr, y, x+1);
+				if (!tr.isOk())
+					wrongTestCounter++;
+				table.setValueAt(tr, y, x + 1);
 			}
 		}
 		copyTestRaportToClipboard.setEnabled(true);

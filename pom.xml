@@ -9,6 +9,11 @@
 
   <dependencies>
     <dependency>
+		<groupId>org.jfree</groupId>
+		<artifactId>jfreechart</artifactId>
+		<version>1.0.14</version>
+	</dependency>
+    <dependency>
       <groupId>junit</groupId>
       <artifactId>junit</artifactId>
       <version>4.2</version>

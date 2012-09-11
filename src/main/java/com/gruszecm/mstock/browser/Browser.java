@@ -53,10 +53,12 @@ import com.mac.verec.datafeed.metastock.Reader;
  * @author szalik
  */
 public class Browser implements ActionListener, WindowListener {
+	JMenu chartsMI = new JMenu("Charts");
 	private JMenuItem open = new JMenuItem("Open...", GUIUtil.getIcon("open.png"));
 	private JMenuItem exit = new JMenuItem("Exit", null);
 	private JMenu recent = new JMenu("Recent");
 	private JMenuItem test = new JMenuItem("Test");
+	JMenuItem chart1 = new JMenuItem("OHLC");
 
 	private Preferences prefs = Preferences.userNodeForPackage(this.getClass());
 
@@ -74,6 +76,7 @@ public class Browser implements ActionListener, WindowListener {
 					cleanup();
 				}
 			}));
+		chartsMI.setEnabled(false);
 		recentFiles = new LinkedHashSet<String>();
 		fileChooser = new JFileChooser(new File(prefs.get("path", ".")));
 		fileChooser.setFileFilter(new FileFilter() {
@@ -131,6 +134,8 @@ public class Browser implements ActionListener, WindowListener {
 		open.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_F3, 0));
 		fileMI.add(recent);
 		menu.add(fileMI);
+		chartsMI.add(chart1);
+		menu.add(chartsMI);
 		ButtonGroup group = new ButtonGroup();
 		JMenu filter = new JMenu("Filters");
 		filter.setMnemonic(KeyEvent.VK_T);
@@ -262,7 +267,7 @@ public class Browser implements ActionListener, WindowListener {
 			protected List<ErrorRecord> doInBackground() throws Exception {
 				List<ErrorRecord> errorRecords = new LinkedList<ErrorRecord>();
 				try {
-					MasterFrame frame = new MasterFrame(finalDir, zipFile, desktop, processMonitor, errorRecords);
+					MasterFrame frame = new MasterFrame(Browser.this, finalDir, zipFile, desktop, processMonitor, errorRecords);
 					frame.setVisible(true);
 					frame.pack();
 					desktop.add(frame);

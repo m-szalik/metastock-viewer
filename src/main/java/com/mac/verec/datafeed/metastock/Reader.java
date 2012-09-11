@@ -213,8 +213,7 @@ public class Reader {
 	 * we will enter a special MARKER on those days and markets that are
 	 * not traded.
 	 */
-	protected void
-	postProcess() {
+	protected void postProcess() {
 		int			instrumentCount = instruments.length ;
 
 		// First we create an array of Dates, with as many entries as the union
@@ -418,7 +417,7 @@ public class Reader {
 	 * Returns an <code>Enumeration</code> that lists all the <code>Instrument</code>s.
 	 */
 	@SuppressWarnings("rawtypes")
-	public Enumeration getInstruments() {
+	public Enumeration<Instrument> getInstruments() {
 		return new Enumeration() {
 			int	index = 0 ;
 			public boolean hasMoreElements() {

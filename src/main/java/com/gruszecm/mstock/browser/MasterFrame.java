@@ -1,5 +1,8 @@
 package com.gruszecm.mstock.browser;
 
+import java.awt.Component;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.io.File;
@@ -12,9 +15,13 @@ import java.util.zip.ZipEntry;
 import java.util.zip.ZipInputStream;
 
 import javax.swing.JDesktopPane;
+import javax.swing.JMenuItem;
+import javax.swing.JOptionPane;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
+import javax.swing.MenuElement;
 import javax.swing.ProgressMonitor;
+import javax.swing.event.InternalFrameEvent;
 
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.IOUtils;
@@ -23,21 +30,17 @@ import com.mac.verec.datafeed.metastock.Reader;
 import com.mac.verec.models.Instrument;
 import com.mac.verec.models.NumberDate;
 
-public class MasterFrame extends AbstractBrowserFrame implements MouseListener, Comparable<MasterFrame>{
+public class MasterFrame extends AbstractBrowserFrame implements MouseListener, Comparable<MasterFrame>, ActionListener {
 	private MasterTabModel model;
 	private Reader reader;
 	private File file;
+	private Browser browser;
+	private JTable table;
 	
-	public Reader getReader() {
-		return reader;
-	}
 	
-	public File getFile() {
-		return file;
-	}
-	
-	public MasterFrame(File dir, File file, JDesktopPane desktopPane, ProgressMonitor progressMonitor, List<ErrorRecord> errorRecords) throws IOException, InterruptedException {
+	public MasterFrame(Browser browser, File dir, File file, JDesktopPane desktopPane, ProgressMonitor progressMonitor, List<ErrorRecord> errorRecords) throws IOException, InterruptedException {
 		super(null, desktopPane);
+		this.browser = browser;
 		this.file = file;
 		setTitle("Index of " + file.getAbsolutePath());
 		dir.mkdirs();
@@ -63,7 +66,7 @@ public class MasterFrame extends AbstractBrowserFrame implements MouseListener, 
 		}
 		Reader reader = new Reader(dir.getAbsolutePath() + "/", true, progressMonitor, errorRecords);
 		model = new MasterTabModel(reader);
-		JTable table = new JTable(model);
+		table = new JTable(model);
 		table.setToolTipText("Double click on instrument row to see data.");
 		table.addMouseListener(this);
 		table.setDefaultRenderer(Date.class, new DateRenderer("yyyy-MM-dd", "yyyy-MM-dd HH:mm:ss"));
@@ -77,6 +80,54 @@ public class MasterFrame extends AbstractBrowserFrame implements MouseListener, 
 		pack();
 		this.reader = reader;
 	}
+
+	
+	@Override
+	public void internalFrameActivated(InternalFrameEvent e) {
+		super.internalFrameActivated(e);
+		browser.chartsMI.setEnabled(true);
+		for(Component menuel : browser.chartsMI.getMenuComponents()) {
+			if (menuel instanceof JMenuItem) {
+				JMenuItem jmi = (JMenuItem) menuel;
+				jmi.addActionListener(this);
+			}
+		}
+	}
+	
+	@Override
+	public void internalFrameDeactivated(InternalFrameEvent e) {
+		super.internalFrameDeactivated(e);
+		browser.chartsMI.setEnabled(false);
+		for(MenuElement menuel : browser.chartsMI.getSubElements()) {
+			if (menuel instanceof JMenuItem) {
+				JMenuItem jmi = (JMenuItem) menuel;
+				jmi.removeActionListener(this);
+			}
+		}
+	}
+	
+	@Override
+	public void actionPerformed(ActionEvent e) {
+		int[] selectedColumns = table.getSelectedColumns();
+		if (selectedColumns.length != 1) {
+			JOptionPane.showMessageDialog(this, "Select single instrument.", "Wrong!", JOptionPane.ERROR_MESSAGE);
+		} else {
+			Instrument instrument = reader.getInstrument(selectedColumns[0]);
+			Chart1Frame chart1frame = new Chart1Frame(this, getDesktopPane(), instrument);
+			chart1frame.pack();
+			desktop.add(chart1frame);
+			chart1frame.setVisible(true);
+		}
+	}
+	
+	public Reader getReader() {
+		return reader;
+	}
+	
+	public File getFile() {
+		return file;
+	}
+	
 
 
 
