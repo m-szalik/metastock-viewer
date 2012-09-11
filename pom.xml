@@ -67,6 +67,25 @@
 				<workspaceCodeStylesURL>http://jsoftware.org/files/intami-eclipse-formatter.xml</workspaceCodeStylesURL>
 			</configuration>
 		</plugin>
+		<plugin>
+        		<artifactId>maven-assembly-plugin</artifactId>
+        		<configuration>
+        			<descriptors>
+        				<descriptor>${basedir}/src/main/assembly/all.xml</descriptor>
+        			</descriptors>
+          			<archive>
+            			<manifest>
+              				<mainClass>com.gruszecm.tjconsole.TJConsole</mainClass>
+			            </manifest>
+          			</archive>
+        		</configuration>
+        		<executions>
+        			<execution>
+        				<phase>package</phase>
+        				<goals><goal>assembly</goal></goals>
+        			</execution>
+        		</executions>
+        	</plugin>
 	</plugins>
 	
 	<resources>
