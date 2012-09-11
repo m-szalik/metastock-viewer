@@ -35,7 +35,10 @@ public class Chart1Frame extends AbstractBrowserFrame {
 			if (quote.isValid()) {
 				RegularTimePeriod period = new Day(quote.date);
 				series.add(period, quote.open, quote.high, quote.low, quote.close);
-				volumeDataset.add(period, quote.volume, "Vol");
+				float vol = quote.volume / 10E3f;
+				if (vol >= 0) {
+					volumeDataset.add(period, vol, "Volume");
+				}
 			}
 		}
 		OHLCSeriesCollection dataset1 = new OHLCSeriesCollection();
@@ -49,11 +52,11 @@ public class Chart1Frame extends AbstractBrowserFrame {
 		plot.setDataset(1, dataset2);
 		plot.setRenderer(1, new StandardXYItemRenderer());
 		// add volume
-		NumberAxis rangeAxis3 = new NumberAxis("Volume");
-		rangeAxis3.setUpperMargin(1.00); // to leave room for price line
+		NumberAxis rangeAxis3 = new NumberAxis("Volume (x 1000)");
+		rangeAxis3.setUpperMargin(1.0); 
 		plot.setRangeAxis(2, rangeAxis3);
 		plot.setDataset(2, volumeDataset);
-		plot.mapDatasetToRangeAxis(1, 1);
+		plot.mapDatasetToRangeAxis(2, 2);
 		XYBarRenderer renderer3 = new XYBarRenderer(0.20);
 //		renderer2.setToolTipGenerator(new StandardXYToolTipGenerator(StandardXYToolTipGenerator.DEFAULT_TOOL_TIP_FORMAT, new SimpleDateFormat("d-MMM-yyyy"), new DecimalFormat("0,000.00")));
 		plot.setRenderer(2, renderer3);

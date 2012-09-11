@@ -58,7 +58,9 @@ public abstract class AbstractBrowserFrame extends JInternalFrame implements Int
 	}
 	public void internalFrameClosed(InternalFrameEvent e) {
 //		this.dispose();
-		desktop.remove(this);
+		if (desktop != null) {
+			desktop.remove(this);
+		}
 	}
 	
 	public void internalFrameClosing(InternalFrameEvent e) {	
