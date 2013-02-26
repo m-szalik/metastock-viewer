@@ -7,8 +7,14 @@
   <name>metastockViewer</name>
   <url>http://metastock.jsoftware.org</url>
 
+  <parent>
+    <groupId>org.jsoftware</groupId>
+    <artifactId>jsoftware</artifactId>
+    <version>1.5</version>
+  </parent>
+
   <dependencies>
-    <dependency>
+	<dependency>
 		<groupId>org.jfree</groupId>
 		<artifactId>jfreechart</artifactId>
 		<version>1.0.14</version>
@@ -18,20 +24,14 @@
 	  	<artifactId>commons-io</artifactId>
 	  	<version>1.4</version>
 	</dependency>
-    <dependency>
-      	<groupId>junit</groupId>
-      	<artifactId>junit</artifactId>
-      	<version>4.2</version>
-      	<scope>test</scope>
-    </dependency>
+	<dependency>
+		<groupId>junit</groupId>
+	  	<artifactId>junit</artifactId>
+      		<version>4.2</version>
+          	<scope>test</scope>
+	</dependency>
   </dependencies>
 
-  <properties>
-    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-    <eclipse.downloadSources>true</eclipse.downloadSources>
-  </properties>
-	   
-  
   <build>
        <plugins>
            <plugin>
@@ -46,46 +46,37 @@
                    <artifactId>maven-surefire-plugin</artifactId>
                    <version>2.4.2</version>
            </plugin>
-           <plugin>
-        		<groupId>org.apache.maven.plugins</groupId>
-        		<artifactId>maven-jar-plugin</artifactId>
-		        <configuration>
-        		  <archive>
-            		<manifest>
-              			<addClasspath>true</addClasspath>
-              			<mainClass>com.gruszecm.mstock.browser.Browser</mainClass>
-            		</manifest>
-          		  </archive>
-        		</configuration>
-	      	</plugin>
-	      	<plugin>
-			<groupId>org.apache.maven.plugins</groupId>
-			<artifactId>maven-eclipse-plugin</artifactId>
-			<configuration>
-				<projectNameTemplate>[artifactId]</projectNameTemplate>
-				<workspace>${basedir}</workspace>
-				<workspaceCodeStylesURL>http://jsoftware.org/files/intami-eclipse-formatter.xml</workspaceCodeStylesURL>
-			</configuration>
-		</plugin>
-		<plugin>
-        		<artifactId>maven-assembly-plugin</artifactId>
-        		<configuration>
-        			<descriptors>
-        				<descriptor>${basedir}/src/main/assembly/all.xml</descriptor>
-        			</descriptors>
-          			<archive>
+	    <plugin>
+		    <groupId>org.apache.maven.plugins</groupId>
+		    <artifactId>maven-jar-plugin</artifactId>
+		    <configuration>
+			    <archive>
             			<manifest>
-              				<mainClass>com.gruszecm.tjconsole.TJConsole</mainClass>
-			            </manifest>
-          			</archive>
-        		</configuration>
-        		<executions>
-        			<execution>
-        				<phase>package</phase>
-        				<goals><goal>assembly</goal></goals>
-        			</execution>
-        		</executions>
-        	</plugin>
+              			    <addClasspath>true</addClasspath>
+              			    <mainClass>com.gruszecm.mstock.browser.Browser</mainClass>
+				</manifest>
+			    </archive>
+        	    </configuration>
+	    </plugin>
+	    <plugin>
+        	<artifactId>maven-assembly-plugin</artifactId>
+        	<configuration>
+        		<descriptors>
+        			<descriptor>${basedir}/src/main/assembly/all.xml</descriptor>
+        		</descriptors>
+			<archive>
+				<manifest>
+	 				<mainClass>com.gruszecm.tjconsole.TJConsole</mainClass>
+				</manifest>
+			</archive>
+		</configuration>
+		<executions>
+			<execution>
+				<phase>package</phase>
+    				<goals><goal>assembly</goal></goals>
+    			</execution>
+    		</executions>
+	    </plugin>
 	</plugins>
 	
 	<resources>
@@ -95,7 +86,7 @@
           </resource>
 	</resources>
   </build>
-  
+
   <scm>
 	<url>svn://jsoftware.org/grucha/metstockViewer/tags/metastockViewer-1.1</url>
 	<connection>scm:svn:svn://jsoftware.org/grucha/metstockViewer/tags/metastockViewer-1.1</connection>
