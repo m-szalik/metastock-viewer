@@ -26,21 +26,22 @@ public class DateRenderer extends DefaultTableCellRenderer {
 			return;
 		}
 		if (value instanceof Date) {
-			String text;
 			Date d = (Date) value;
-			text = sdf1.format(d);
-			setText(text);
-			text = sdf2.format(d);
+			setText(sdf1.toString());
+			StringBuilder text = new StringBuilder(sdf2.format(d));
 			if (value instanceof NumberDate) {
 				NumberDate nd = (NumberDate) value;
-				text = text + " (" + nd.getNumberValue() + ")";
+				text.append(" (").append(nd.getNumberValue()).append(")");
 				if (nd.getBytes() != null) {
-					text += "[";
-					for(byte b : nd.getBytes()) text += b + " ";
-					text = text.trim() + "]";
+					text.append("[");
+					for(byte b : nd.getBytes()) {
+						text.append(b).append(' ');
+					}
+					text.trimToSize();
+					text.append("]");
 				}
 			}
-			setToolTipText(text);
+			setToolTipText(text.toString());
 		} else {
 			throw new RuntimeException();
 		}

@@ -105,7 +105,7 @@ public class Browser implements ActionListener, WindowListener {
 			}
 		}
 
-		jFrame = new JFrame("Metastock browser");
+		jFrame = new JFrame("Metastock browser");	/* firebug ok */
 		jFrame.setJMenuBar(getMenu());
 		desktop = new JDesktopPane();
 		jFrame.getContentPane().add(desktop);
@@ -172,7 +172,8 @@ public class Browser implements ActionListener, WindowListener {
 						JMenuItem item = new JMenuItem(mf.getFile().getName());
 						item.addActionListener(new ActionListener() {
 							public void actionPerformed(ActionEvent e) {
-								new TestFrame(mf, desktop, mf.getReader());
+								TestFrame tf = new TestFrame(mf, desktop, mf.getReader());
+								tf.start();
 							}
 						});
 						testMenu.add(item);

@@ -43,7 +43,9 @@ public class MasterFrame extends AbstractBrowserFrame implements MouseListener, 
 		this.browser = browser;
 		this.file = file;
 		setTitle("Index of " + file.getAbsolutePath());
-		dir.mkdirs();
+		if (! dir.mkdirs()) {
+			throw new IOException("Cannot create directory '" + dir.getAbsolutePath() + "'!");
+		}
 		System.out.println("Temporary directory " + dir);
 		FileUtils.writeStringToFile(new File(dir, ".info.txt"), "Data from " + file.getAbsolutePath());
 		ZipInputStream stream = new ZipInputStream(new FileInputStream(file));

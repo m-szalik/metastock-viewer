@@ -26,34 +26,31 @@ public class TestResultRenderer extends DefaultTableCellRenderer {
 		Component rr = super.getTableCellRendererComponent(table, value, isSelected, hasFocus, row, column);
 		if (value instanceof TestResult) {
 			TestResult tr = (TestResult) value;
-			setAlignmentX(0);
-			if (tr == null) {
-				setBackground(Color.LIGHT_GRAY);
-			} else {
-				setAlignmentX(0.5f);
-				if (tr.isOk()) {
-					if (tr.getInfoMessages().size() > 0) {
-						setBackground(Color.BLUE);
-						setText(TestResult.tostring(tr.getInfoMessages()));
-					} else {
-						setForeground(Color.GREEN);
-						setBackground(OK_BACKGROUND);
-						setText("ok");
-					}
+			setAlignmentX(0.5f);
+			if (tr.isOk()) {
+				if (tr.getInfoMessages().size() > 0) {
+					setBackground(Color.BLUE);
+					setText(TestResult.tostring(tr.getInfoMessages()));
 				} else {
-					if (tr.isImportant()) {
-						setBackground(Color.PINK);
-						setForeground(Color.RED);
-					} else {
-						setBackground(LIGHT_PINK);
-						setForeground(Color.RED);
-					}
-					setText(TestResult.tostring(tr.getErrorMessages()));
-					setToolTipText(TestResult.tostring(tr.getErrorMessages()));
-					for(String s : tr.getErrorMessages()) {
-					}
+					setForeground(Color.GREEN);
+					setBackground(OK_BACKGROUND);
+					setText("ok");
 				}
+			} else {
+				if (tr.isImportant()) {
+					setBackground(Color.PINK);
+					setForeground(Color.RED);
+				} else {
+					setBackground(LIGHT_PINK);
+					setForeground(Color.RED);
+				}
+				setText(TestResult.tostring(tr.getErrorMessages()));
+				setToolTipText(TestResult.tostring(tr.getErrorMessages()));
+//				for(String s : tr.getErrorMessages()) {
+//					// 	TODO				
+//				}
 			}
+		
 		}
 		return rr;
 	}

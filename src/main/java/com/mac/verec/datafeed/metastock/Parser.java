@@ -161,7 +161,7 @@ public final class Parser {
 		int b1 = buffer[offset++] ;
 		int b2 = buffer[offset] ;
 		
-		return (short) ((b2 << 8) | b1) ;
+		return (short) ((b2 << 8) | (b1 & 0xff)) ;
 	}
 
 	/**

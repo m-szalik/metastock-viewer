@@ -1,8 +1,8 @@
 package com.mac.verec.datafeed.metastock;
 
-import org.junit.Test;
-
 import junit.framework.Assert;
+
+import org.junit.Test;
 
 
 public class ParserTest {

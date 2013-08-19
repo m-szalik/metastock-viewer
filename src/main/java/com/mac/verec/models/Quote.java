@@ -76,6 +76,11 @@ public class Quote {
 		}
 		return false;
 	}
+	
+	@Override
+	public int hashCode() {
+		return date == null ? 0 : date.hashCode();
+	}
 
 	/** Just so that dumps are a bit more menaingful. */
 	public String toString() {

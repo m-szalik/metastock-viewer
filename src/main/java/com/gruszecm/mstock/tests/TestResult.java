@@ -1,11 +1,9 @@
 package com.gruszecm.mstock.tests;
 
-import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collection;
 
-public class TestResult implements Serializable, Comparable<TestResult> {
-	private static final long serialVersionUID = -2535859964146875236L;
+public class TestResult implements Comparable<TestResult> {
 	private Collection<String> errorMessages = new ArrayList<String>();
 	private Collection<String> infoMessages = new ArrayList<String>();
 	private AbstractMstockTest test;

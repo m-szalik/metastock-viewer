@@ -83,6 +83,9 @@ public class TestFrame extends AbstractBrowserFrame {
 		setJMenuBar(menuBar);
 		desktopPane.add(this);
 		setVisible(true);
+	}
+	
+	public void start() {
 		Thread thread = new Thread() {
 			@Override
 			public void run() {
