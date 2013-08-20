@@ -14,7 +14,6 @@ public class TestResultRenderer extends DefaultTableCellRenderer {
 	private static final Color OK_BACKGROUND = new Color(217, 255, 200);
 	private static final Color LIGHT_PINK = new Color(254, 224, 224);
 	
-	
 	public TestResultRenderer() {
 		setOpaque(true);
 		ToolTipManager.sharedInstance().setDismissDelay(1000 * 120);

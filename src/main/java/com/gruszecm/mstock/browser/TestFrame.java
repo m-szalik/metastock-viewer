@@ -118,7 +118,6 @@ public class TestFrame extends AbstractBrowserFrame {
 
 
 	public void doTests() {
-		int wrongTestCounter = 0;
 		int y = 0;
 		Enumeration<Instrument> en = reader.getInstruments();
 		for (; en.hasMoreElements(); y++) {
@@ -126,8 +125,6 @@ public class TestFrame extends AbstractBrowserFrame {
 			for (int x = 0; x < tests.length; x++) {
 				AbstractMstockTest test = tests[x];
 				TestResult tr = test.test(instrument);
-				if (!tr.isOk())
-					wrongTestCounter++;
 				table.setValueAt(tr, y, x + 1);
 			}
 		}

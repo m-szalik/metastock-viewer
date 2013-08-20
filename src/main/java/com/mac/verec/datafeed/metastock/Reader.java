@@ -45,7 +45,7 @@ import com.mac.verec.utils.HostSystem;
  * @see Quote
  * @see Parser
  */
-@SuppressWarnings({ "unchecked", "unused" })
+@SuppressWarnings({ "unchecked" })
 public class Reader {
 
 	/**
@@ -305,7 +305,7 @@ public class Reader {
 		// Now earliest is the earliest ANY instrument got quote data for, and
 		// latest is the latest that any instrument got quote data for, too.
 
-		Vector dates = new Vector();
+		Vector<Object> dates = new Vector<Object>();
 		Calendar c = Calendar.getInstance();
 
 		// Scan the whole calendar from earliest to latest, and add all
