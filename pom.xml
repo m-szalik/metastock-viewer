@@ -1,3 +1,4 @@
+
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
   <modelVersion>4.0.0</modelVersion>
   <groupId>com.gruszecm</groupId>
@@ -88,9 +89,16 @@
   </build>
 
   <scm>
-	<url>svn://jsoftware.org/grucha/metstockViewer/tags/metastockViewer-1.1</url>
-	<connection>scm:svn:svn://jsoftware.org/grucha/metstockViewer/tags/metastockViewer-1.1</connection>
-	<developerConnection>scm:svn:svn://jsoftware.org/grucha/metstockViewer/tags/metastockViewer-1.1</developerConnection>
+	<url>svn://jsoftware.org/grucha/metstockViewer/trunk</url>
+	<connection>scm:svn:svn://jsoftware.org/grucha/metstockViewer/trunk</connection>
+	<developerConnection>scm:svn:svn://jsoftware.org/grucha/metstockViewer/trunk</developerConnection>
   </scm>
 
+  <repositories>
+	  <repository>
+		  <id>jsoftware.org</id>
+		  <url>http://maven.jsoftware.org</url>
+	  </repository>
+  </repositories>
+	
 </project>
