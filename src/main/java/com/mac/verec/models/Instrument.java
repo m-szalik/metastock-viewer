@@ -1,4 +1,4 @@
-package com.mac.verec.models ;
+package com.mac.verec.models;
 
 /**
  * A financial instrument with daily OHLC in raw and
@@ -22,103 +22,111 @@ package com.mac.verec.models ;
  * @see Reader
  * @see Quote
  */
- 
+
 import com.mac.verec.datafeed.metastock.MasterFileRecord;
 
 public class Instrument {
-	private Integer validQuotas = null;
-	/**
-	 * The default value for the stake. <b>The actual value must
-	 * be specified when generating trades, otherwise the portfolio
-	 * <i>will</i> contain a bogus equity balance</b>.
-	 */
-	public static final float	DEFAULT_STAKE	=	1.0f ;
+    private Integer validQuotas = null;
+    /**
+     * The default value for the stake. <b>The actual value must
+     * be specified when generating trades, otherwise the portfolio
+     * <i>will</i> contain a bogus equity balance</b>.
+     */
+    public static final float DEFAULT_STAKE = 1.0f;
 
-	/** The name of the instrument, e.g: "DOW JONES INDU A-". */
-	public	String			name ;
+    /**
+     * The name of the instrument, e.g: "DOW JONES INDU A-".
+     */
+    public String name;
 
-	/** The Reuters assigned symbol of the instrument, e.g: ".DJI". */
-	public	String			symbol ;
+    /**
+     * The Reuters assigned symbol of the instrument, e.g: ".DJI".
+     */
+    public String symbol;
 
-	/** The <i>only traded days included</i> quote data. */
-	public	Quote[]			rawQuotes ;
+    /**
+     * The <i>only traded days included</i> quote data.
+     */
+    public Quote[] rawQuotes;
 
-	/** The <i>all business days included</i> quote data. */
-	public	Quote[]			quotes ;
+    /**
+     * The <i>all business days included</i> quote data.
+     */
+    public Quote[] quotes;
 
-	public Quote[] getQuotes() {
-		return quotes;
-	}
-	
-	
-	public MasterFileRecord getMasterFileRecord() {
-		return masterFileRecord;
-	}
-	
-	/**
-	 * The stake corresponding to that instrument <i>It may depend on
-	 * the actual broker used. For example, with a spread-betting
-	 * account, the broker imposes the stake. This may not be the case
-	 * with a more plain vanillia broker -- assuming such a thing exists!
-	 * ;-) -- </i>
-	 */
-	public	float			stakePerPoint ;
-
-	public	boolean			inUse ;
-
-	private MasterFileRecord masterFileRecord;
-	private int norec = -1;
-	
-	
-	public void setNorec(int norec) {
-		this.norec = norec;
-	}
-	
-	/**
-	 * Default constructor that does nothing of significance. Fields
-	 * <b>must be</b> initialized to non default values at some point.
-	 */
-	public	Instrument() {
-		this(null, null, null, DEFAULT_STAKE) ;
-	}
-
-	/**
-	 * Default constructor that assigns the rawQuotes, name and symbol
-	 * values. The other remaining fields <b>must be</b> initialized
-	 * to non default values at some point.
-	 */
-	public Instrument(MasterFileRecord r,	Quote[]	rawQuotes) {
-		this(r, rawQuotes, null, DEFAULT_STAKE) ;
-	}
-
-	/**
-	 * Main constructor where every single field must be specified.
-	 */
-	private Instrument(MasterFileRecord r,	Quote[]	rawQuotes,	Quote[]	quotes,	float stakePerPoint) {
-		if (r != null) {
-			this.name = r.getIssueName();
-			this.symbol = r.getSymbol();
-		}
-		this.rawQuotes = rawQuotes ;
-		this.quotes = quotes ;
-		this.stakePerPoint = stakePerPoint ;
-		this.masterFileRecord = r;
-	}
-
-	public int getValidQuotas() {
-		if (validQuotas == null) {
-			// calculate valid quotas
-			if (quotes != null) {
-				int qc = 0;
-				for(Quote q : quotes) if (q.isValid()) qc++;
-				validQuotas = qc;
-			} 
-		}
-		return validQuotas == null ? -1 : validQuotas;
-	}
+    public Quote[] getQuotes() {
+        return quotes;
+    }
 
 
-	public int getNumberOfRecords() {
-		return norec;
-	}
+    public MasterFileRecord getMasterFileRecord() {
+        return masterFileRecord;
+    }
+
+    /**
+     * The stake corresponding to that instrument <i>It may depend on
+     * the actual broker used. For example, with a spread-betting
+     * account, the broker imposes the stake. This may not be the case
+     * with a more plain vanillia broker -- assuming such a thing exists!
+     * ;-) -- </i>
+     */
+    public float stakePerPoint;
+
+    public boolean inUse;
+
+    private MasterFileRecord masterFileRecord;
+    private int norec = -1;
+
+
+    public void setNorec(int norec) {
+        this.norec = norec;
+    }
+
+    /**
+     * Default constructor that does nothing of significance. Fields
+     * <b>must be</b> initialized to non default values at some point.
+     */
+    public Instrument() {
+        this(null, null, null, DEFAULT_STAKE);
+    }
+
+    /**
+     * Default constructor that assigns the rawQuotes, name and symbol
+     * values. The other remaining fields <b>must be</b> initialized
+     * to non default values at some point.
+     */
+    public Instrument(MasterFileRecord r, Quote[] rawQuotes) {
+        this(r, rawQuotes, null, DEFAULT_STAKE);
+    }
+
+    /**
+     * Main constructor where every single field must be specified.
+     */
+    private Instrument(MasterFileRecord r, Quote[] rawQuotes, Quote[] quotes, float stakePerPoint) {
+        if (r != null) {
+            this.name = r.getIssueName();
+            this.symbol = r.getSymbol();
+        }
+        this.rawQuotes = rawQuotes;
+        this.quotes = quotes;
+        this.stakePerPoint = stakePerPoint;
+        this.masterFileRecord = r;
+    }
+
+    public int getValidQuotas() {
+        if (validQuotas == null) {
+            // calculate valid quotas
+            if (quotes != null) {
+                int qc = 0;
+                for (Quote q : quotes) if (q.isValid()) qc++;
+                validQuotas = qc;
+            }
+        }
+        return validQuotas == null ? -1 : validQuotas;
+    }
+
+
+    public int getNumberOfRecords() {
+        return norec;
+    }
 }
