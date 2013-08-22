@@ -7,9 +7,9 @@
 
 package com.mac.verec.datafeed.metastock ;
 
-import java.util.Date;
-
 import com.mac.verec.models.NumberDate;
+
+import java.util.Date;
 
 /**
  * Where all <i>my</i> intelligence shows ;-) Not that parsing this format
@@ -25,18 +25,18 @@ public final class MasterFileRecord {
 	private static final String	FSUFFIX_MWD	= ".MWD" ;
 	
 	// only package visible
-	int		fileNum ;
-	char	fileType ;
-	int		recordLength ;
-	int		recordCount ;
-	String	issueName ;
-	boolean	v28 ;
-	NumberDate	firstDate ;
-	NumberDate	lastDate ;
-	char	timeFrame ;
-	int		idaTime ;
-	String	symbol ;
-	boolean	autorun ;
+    int		fileNum ;
+	private char	fileType ;
+    int		recordLength ;
+    int		recordCount ;
+    private String	issueName ;
+    private boolean	v28 ;
+    private NumberDate	firstDate ;
+    private NumberDate	lastDate ;
+    private char	timeFrame ;
+    private int		idaTime ;
+    private String	symbol ;
+    private boolean	autorun ;
 
 	/**
 	 * All the parsing, reading & decoding is done in the constructor.
@@ -48,7 +48,7 @@ public final class MasterFileRecord {
 
 		int	recordBase	= (recNum+1) * MasterFileDescriptor.MASTER_RECORD_LENGTH ;
 		
-		fileNum		= Parser.readByte	(data, recordBase + MasterFileDescriptor.FILE_NUM);
+		fileNum		= Parser.readByte(data, recordBase + MasterFileDescriptor.FILE_NUM);
 		if (fileNum < 0) fileNum = Byte.MAX_VALUE - fileNum;
 		fileType	= (char) Parser.readShort	(data, recordBase + MasterFileDescriptor.FILE_TYPE_0) ;
 		recordLength= Parser.readByte	(data, recordBase + MasterFileDescriptor.RECORD_LENGTH) ;
@@ -70,11 +70,10 @@ public final class MasterFileRecord {
 
 	public String
 	toString() {
-		StringBuffer	sb = new StringBuffer() ;
-		
-		sb.append("fileNum:      " + Integer.toString(fileNum) + "\n") ;
+		StringBuilder	sb = new StringBuilder();
+		sb.append("fileNum:").append(fileNum).append("\n") ;
 		char[] ft = {fileType} ;
-		sb.append("fileType:     " + new String(ft) + "\n") ;
+		sb.append("fileType:     ").append(ft).append("\n") ;
 		sb.append("recordLength: " + Integer.toString(recordLength) + "\n") ;
 		sb.append("recordCount:  " + Integer.toString(recordCount) + "\n") ;
 		sb.append("issueName:    " + issueName + "\n") ;

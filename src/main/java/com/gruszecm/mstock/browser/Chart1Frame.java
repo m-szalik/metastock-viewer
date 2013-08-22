@@ -1,8 +1,7 @@
 package com.gruszecm.mstock.browser;
 
-import javax.swing.JDesktopPane;
-import javax.swing.JInternalFrame;
-
+import com.mac.verec.models.Instrument;
+import com.mac.verec.models.Quote;
 import org.jfree.chart.ChartFactory;
 import org.jfree.chart.ChartPanel;
 import org.jfree.chart.JFreeChart;
@@ -20,8 +19,7 @@ import org.jfree.data.time.ohlc.OHLCSeries;
 import org.jfree.data.time.ohlc.OHLCSeriesCollection;
 import org.jfree.data.xy.XYDataset;
 
-import com.mac.verec.models.Instrument;
-import com.mac.verec.models.Quote;
+import javax.swing.*;
 
 public class Chart1Frame extends AbstractBrowserFrame {
 	private static final long serialVersionUID = 6409974181595978626L;

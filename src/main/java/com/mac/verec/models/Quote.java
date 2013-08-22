@@ -8,7 +8,7 @@ package com.mac.verec.models ;
  * @see Instrument
  */
 public class Quote {
-	public int no;
+	private int no;
 	/** The date corresponding to the OHLC fields below */
 	public NumberDate		date ;
 
@@ -63,10 +63,7 @@ public class Quote {
 		this.volume = other.volume ;
 	}
 	
-	public void
-	reset() {
-	}
-	
+
 	@Override
 	public boolean equals(Object obj) {
 		if (this == obj) return true;

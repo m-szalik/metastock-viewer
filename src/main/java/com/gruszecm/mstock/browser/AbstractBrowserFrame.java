@@ -1,21 +1,19 @@
 package com.gruszecm.mstock.browser;
 
+import javax.swing.*;
+import javax.swing.event.InternalFrameEvent;
+import javax.swing.event.InternalFrameListener;
 import java.util.HashSet;
 import java.util.Set;
 
-import javax.swing.JDesktopPane;
-import javax.swing.JInternalFrame;
-import javax.swing.event.InternalFrameEvent;
-import javax.swing.event.InternalFrameListener;
-
-public abstract class AbstractBrowserFrame extends JInternalFrame implements InternalFrameListener{
-	protected JDesktopPane desktop;
-	protected JInternalFrame parent;
-	protected Set<JInternalFrame> childrenFrames; 
+abstract class AbstractBrowserFrame extends JInternalFrame implements InternalFrameListener{
+	protected final JDesktopPane desktop;
+	protected final JInternalFrame parent;
+	protected final Set<JInternalFrame> childrenFrames;
 	
 	private static final long serialVersionUID = 1108677867617271438L;
 	
-	public AbstractBrowserFrame(JInternalFrame parent, JDesktopPane desktopPane) {
+	protected AbstractBrowserFrame(JInternalFrame parent, JDesktopPane desktopPane) {
 		super("", true, true, true);
 		setIconifiable(true);
 		this.desktop = desktopPane;

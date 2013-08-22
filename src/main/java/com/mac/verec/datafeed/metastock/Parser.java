@@ -7,12 +7,12 @@
 
 package com.mac.verec.datafeed.metastock ;
 
+import com.mac.verec.models.NumberDate;
+
 import java.io.File;
 import java.io.FileInputStream;
 import java.util.Arrays;
 import java.util.Calendar;
-
-import com.mac.verec.models.NumberDate;
 
 /**
  * The actual code that deals with Metastock idiosyncratic format. Provision
@@ -80,10 +80,10 @@ public final class Parser {
 	public static float
 	readMicrosoftBASICfloat(byte[] buffer, int offset) {
 
-		int 	b0 = (int) (buffer[offset++] & 0x0ff) ;
-		int 	b1 = (int) (buffer[offset++] & 0x0ff) ;
-		int 	b2 = (int) (buffer[offset++] & 0x0ff) ;
-		int 	b3 = (int) (buffer[offset] & 0x0ff) ;
+		int 	b0 = (buffer[offset++] & 0x0ff) ;
+		int 	b1 = (buffer[offset++] & 0x0ff) ;
+		int 	b2 = (buffer[offset++] & 0x0ff) ;
+		int 	b3 = (buffer[offset] & 0x0ff) ;
 
 		// Now, this is big endian:
 
@@ -192,10 +192,7 @@ public final class Parser {
 	}
 
 	public static int readInt(byte buf[], int offset) {
-		return ((buf[offset + 0] & 0xFF) << 0) +
-	       ((buf[offset + 1] & 0xFF) << 8) +
-	       ((buf[offset + 2] & 0xFF) << 16) +
-	       ((buf[offset + 3]) << 24);
+		return (buf[offset + 0] & 0xFF) + ((buf[offset + 1] & 0xFF) << 8) + ((buf[offset + 2] & 0xFF) << 16) +  ((buf[offset + 3]) << 24);
 	}
 
 	public static NumberDate readDateInt(byte[] data, int offset) {

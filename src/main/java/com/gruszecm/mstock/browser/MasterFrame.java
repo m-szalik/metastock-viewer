@@ -1,6 +1,14 @@
 package com.gruszecm.mstock.browser;
 
-import java.awt.Component;
+import com.mac.verec.datafeed.metastock.Reader;
+import com.mac.verec.models.Instrument;
+import com.mac.verec.models.NumberDate;
+import org.apache.commons.io.FileUtils;
+import org.apache.commons.io.IOUtils;
+
+import javax.swing.*;
+import javax.swing.event.InternalFrameEvent;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
@@ -13,22 +21,6 @@ import java.util.Date;
 import java.util.List;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipInputStream;
-
-import javax.swing.JDesktopPane;
-import javax.swing.JMenuItem;
-import javax.swing.JOptionPane;
-import javax.swing.JScrollPane;
-import javax.swing.JTable;
-import javax.swing.MenuElement;
-import javax.swing.ProgressMonitor;
-import javax.swing.event.InternalFrameEvent;
-
-import org.apache.commons.io.FileUtils;
-import org.apache.commons.io.IOUtils;
-
-import com.mac.verec.datafeed.metastock.Reader;
-import com.mac.verec.models.Instrument;
-import com.mac.verec.models.NumberDate;
 
 public class MasterFrame extends AbstractBrowserFrame implements MouseListener, Comparable<MasterFrame>, ActionListener {
 	private MasterTabModel model;

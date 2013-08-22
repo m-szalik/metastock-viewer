@@ -1,9 +1,9 @@
 package com.gruszecm.mstock.browser;
 
-import javax.swing.table.AbstractTableModel;
-
 import com.mac.verec.datafeed.metastock.Reader;
 import com.mac.verec.models.Instrument;
+
+import javax.swing.table.AbstractTableModel;
 
 public class MasterTabModel extends AbstractTableModel {
 	private static final long serialVersionUID = 6467417063330289337L;
@@ -32,8 +32,7 @@ public class MasterTabModel extends AbstractTableModel {
 	}
 
 	public Object getValueAt(int rowIndex, int columnIndex) {
-		Object obj = get(rowIndex, columnIndex);
-		return obj;
+		return get(rowIndex, columnIndex);
 	}
 	
 	@Override

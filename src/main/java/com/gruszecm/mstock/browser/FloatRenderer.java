@@ -1,10 +1,8 @@
 package com.gruszecm.mstock.browser;
 
-import java.awt.Color;
-import java.awt.Component;
-
-import javax.swing.JTable;
+import javax.swing.*;
 import javax.swing.table.DefaultTableCellRenderer;
+import java.awt.*;
 
 public class FloatRenderer extends DefaultTableCellRenderer {
 	private static final long serialVersionUID = 5310683747544174196L;

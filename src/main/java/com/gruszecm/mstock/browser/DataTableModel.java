@@ -1,9 +1,9 @@
 package com.gruszecm.mstock.browser;
 
-import javax.swing.table.AbstractTableModel;
-
 import com.mac.verec.models.Instrument;
 import com.mac.verec.models.Quote;
+
+import javax.swing.table.AbstractTableModel;
 
 public class DataTableModel extends AbstractTableModel {
 	private static final long serialVersionUID = -977981927441019303L;

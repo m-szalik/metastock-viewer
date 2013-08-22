@@ -1,7 +1,6 @@
 package com.mac.verec.datafeed.metastock;
 
 import junit.framework.Assert;
-
 import org.junit.Test;
 
 

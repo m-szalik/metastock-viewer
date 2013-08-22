@@ -1,19 +1,12 @@
 package com.gruszecm.mstock.browser;
 
-import java.awt.Color;
-import java.awt.Component;
-import java.util.Date;
-
-import javax.swing.JDesktopPane;
-import javax.swing.JLabel;
-import javax.swing.JPanel;
-import javax.swing.JScrollPane;
-import javax.swing.JTable;
-import javax.swing.RowFilter;
-import javax.swing.table.TableRowSorter;
-
 import com.mac.verec.models.Instrument;
 import com.mac.verec.models.NumberDate;
+
+import javax.swing.*;
+import javax.swing.table.TableRowSorter;
+import java.awt.*;
+import java.util.Date;
 
 
 

@@ -1,6 +1,6 @@
 package com.gruszecm.mstock.browser;
 
-import javax.swing.RowFilter;
+import javax.swing.*;
 
 public abstract class DataFilter extends RowFilter<DataTableModel, Integer> {
 	

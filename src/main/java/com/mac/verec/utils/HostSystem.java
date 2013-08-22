@@ -1,13 +1,9 @@
 package com.mac.verec.utils ;
 
-import java.awt.Dimension;
-import java.awt.Point;
+import javax.swing.*;
+import java.awt.*;
 import java.util.Calendar;
 import java.util.Date;
-
-import javax.swing.JScrollPane;
-import javax.swing.JViewport;
-import javax.swing.UIManager;
 
 public class HostSystem {
 
@@ -17,18 +13,18 @@ private static	Boolean				onAqua ;
 	public static boolean
 	onMac() {
 		if (onMac == null) {
-			onMac = Boolean.valueOf(System.getProperty("mrj.version") != null);
+			onMac = System.getProperty("mrj.version") != null;
 		}
-		return onMac.booleanValue() ;
+		return onMac;
 	}
 
 	public static boolean
 	onAqua() {
 		if (onAqua == null) {
-			onAqua = Boolean.valueOf(onMac() && (UIManager.getSystemLookAndFeelClassName().equals(UIManager.getLookAndFeel().getClass().getName()))); 
+			onAqua = onMac() && (UIManager.getSystemLookAndFeelClassName().equals(UIManager.getLookAndFeel().getClass().getName()));
 		}
 
-		return onAqua.booleanValue() ;
+		return onAqua;
 	}
 
     private static final String[] kludgyMonthString = {
@@ -40,7 +36,7 @@ private static	Boolean				onAqua ;
 
     public static String
     dateToString(Date d) {
-    	StringBuffer sb = new StringBuffer() ;
+    	StringBuilder sb = new StringBuilder();
     	Calendar c = Calendar.getInstance() ;
 		c.clear() ;
     	c.setTime(d) ;

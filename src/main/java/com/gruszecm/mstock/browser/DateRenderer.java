@@ -1,17 +1,16 @@
 package com.gruszecm.mstock.browser;
 
-import java.text.SimpleDateFormat;
-import java.util.Date;
+import com.mac.verec.models.NumberDate;
 
 import javax.swing.table.DefaultTableCellRenderer;
-
-import com.mac.verec.models.NumberDate;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 public class DateRenderer extends DefaultTableCellRenderer {
 
 	private static final long serialVersionUID = -1976804846865659974L;
 	private SimpleDateFormat sdf1, sdf2;
-	
+
 	public DateRenderer(String shortFormat, String longFormat) {
 		sdf1 = new SimpleDateFormat(shortFormat);
 		sdf2 = new SimpleDateFormat(longFormat);

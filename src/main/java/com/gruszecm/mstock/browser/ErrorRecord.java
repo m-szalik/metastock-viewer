@@ -13,7 +13,7 @@ public class ErrorRecord implements Serializable {
 	private Throwable exception;
 	private Type type;
 
-	public ErrorRecord(Type type, String msg) {
+	private ErrorRecord(Type type, String msg) {
 		this.type = type;
 		this.message = msg;
 	}

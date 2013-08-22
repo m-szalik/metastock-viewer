@@ -1,8 +1,9 @@
 package com.gruszecm.mstock.browser;
 
-import java.awt.Dimension;
-import java.awt.GridLayout;
-import java.awt.Point;
+import org.apache.commons.io.IOUtils;
+
+import javax.swing.*;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
@@ -10,17 +11,6 @@ import java.io.FileInputStream;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.List;
-
-import javax.swing.JButton;
-import javax.swing.JDialog;
-import javax.swing.JFileChooser;
-import javax.swing.JFrame;
-import javax.swing.JLabel;
-import javax.swing.JList;
-import javax.swing.JOptionPane;
-import javax.swing.JPanel;
-
-import org.apache.commons.io.IOUtils;
 
 public class ErrorRaportDialog extends JDialog implements ActionListener {
 	private JButton buttonOK = new JButton("OK");
@@ -83,7 +73,7 @@ public class ErrorRaportDialog extends JDialog implements ActionListener {
 				break;
 			default:
 				break;
-			} ;
+			}
 		    
 		}
 		

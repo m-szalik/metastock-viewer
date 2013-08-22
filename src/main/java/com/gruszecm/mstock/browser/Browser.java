@@ -1,52 +1,21 @@
 package com.gruszecm.mstock.browser;
 
-import java.awt.Component;
-import java.awt.Dimension;
-import java.awt.EventQueue;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.InputEvent;
-import java.awt.event.KeyEvent;
-import java.awt.event.WindowEvent;
-import java.awt.event.WindowListener;
-import java.io.File;
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.LinkedHashSet;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.ResourceBundle;
-import java.util.Set;
-import java.util.prefs.BackingStoreException;
-import java.util.prefs.Preferences;
+import com.mac.verec.datafeed.metastock.Reader;
+import org.apache.commons.io.FileUtils;
 
 import javax.imageio.ImageIO;
-import javax.swing.AbstractAction;
-import javax.swing.Box;
-import javax.swing.ButtonGroup;
-import javax.swing.JDesktopPane;
-import javax.swing.JFileChooser;
-import javax.swing.JFrame;
-import javax.swing.JInternalFrame;
-import javax.swing.JLabel;
-import javax.swing.JMenu;
-import javax.swing.JMenuBar;
-import javax.swing.JMenuItem;
-import javax.swing.JOptionPane;
-import javax.swing.JRadioButtonMenuItem;
-import javax.swing.JSeparator;
-import javax.swing.KeyStroke;
-import javax.swing.ProgressMonitor;
-import javax.swing.RowFilter;
-import javax.swing.SwingWorker;
+import javax.swing.*;
 import javax.swing.event.MenuEvent;
 import javax.swing.event.MenuListener;
 import javax.swing.filechooser.FileFilter;
-
-import org.apache.commons.io.FileUtils;
-
-import com.mac.verec.datafeed.metastock.Reader;
+import java.awt.*;
+import java.awt.event.*;
+import java.io.File;
+import java.io.IOException;
+import java.util.*;
+import java.util.List;
+import java.util.prefs.BackingStoreException;
+import java.util.prefs.Preferences;
 
 /**
  * 
@@ -109,7 +78,7 @@ public class Browser implements ActionListener, WindowListener {
 		jFrame.setJMenuBar(getMenu());
 		desktop = new JDesktopPane();
 		jFrame.getContentPane().add(desktop);
-		jFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		jFrame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
 		jFrame.setSize(new Dimension(600, 500));
 		jFrame.addWindowListener(this);
 		try {

@@ -1,6 +1,11 @@
 package com.gruszecm.mstock.browser;
 
-import java.awt.Toolkit;
+import com.gruszecm.mstock.tests.*;
+import com.mac.verec.datafeed.metastock.Reader;
+import com.mac.verec.models.Instrument;
+
+import javax.swing.*;
+import java.awt.*;
 import java.awt.datatransfer.Clipboard;
 import java.awt.datatransfer.ClipboardOwner;
 import java.awt.datatransfer.StringSelection;
@@ -10,24 +15,6 @@ import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.io.StringWriter;
 import java.util.Enumeration;
-
-import javax.swing.JDesktopPane;
-import javax.swing.JInternalFrame;
-import javax.swing.JMenu;
-import javax.swing.JMenuBar;
-import javax.swing.JMenuItem;
-import javax.swing.JScrollPane;
-import javax.swing.JTable;
-
-import com.gruszecm.mstock.tests.AbstractMstockTest;
-import com.gruszecm.mstock.tests.DatNoOfRecordsTest;
-import com.gruszecm.mstock.tests.DateFirstTest;
-import com.gruszecm.mstock.tests.DateLastTest;
-import com.gruszecm.mstock.tests.QuotMinMaxTest;
-import com.gruszecm.mstock.tests.QuotValueTest;
-import com.gruszecm.mstock.tests.TestResult;
-import com.mac.verec.datafeed.metastock.Reader;
-import com.mac.verec.models.Instrument;
 
 public class TestFrame extends AbstractBrowserFrame {
 	private static final long serialVersionUID = 2136500585019304598L;

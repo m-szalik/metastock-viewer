@@ -1,9 +1,9 @@
 package com.gruszecm.mstock.tests;
 
-import java.util.Date;
-
 import com.mac.verec.models.Instrument;
 import com.mac.verec.models.Quote;
+
+import java.util.Date;
 
 public class DateFirstTest extends AbstractDateTest {
 	

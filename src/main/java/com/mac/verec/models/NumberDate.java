@@ -1,8 +1,8 @@
 package com.mac.verec.models;
 
-import java.util.Date;
-
 import com.mac.verec.datafeed.metastock.Parser;
+
+import java.util.Date;
 
 public class NumberDate extends Date{
 	private static final long serialVersionUID = -3568736716658591206L;

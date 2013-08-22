@@ -1,12 +1,10 @@
 package com.gruszecm.mstock.browser;
 
-import java.awt.Image;
+import javax.imageio.ImageIO;
+import javax.swing.*;
+import java.awt.*;
 import java.io.IOException;
 import java.io.InputStream;
-
-import javax.imageio.ImageIO;
-import javax.swing.Icon;
-import javax.swing.ImageIcon;
 
 public class GUIUtil {
 

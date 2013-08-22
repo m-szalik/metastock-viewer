@@ -1,24 +1,18 @@
 package com.mac.verec.datafeed.metastock;
 
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.PrintWriter;
-import java.util.Arrays;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.Enumeration;
-import java.util.List;
-import java.util.Vector;
-import java.util.concurrent.atomic.AtomicInteger;
-
-import javax.swing.ProgressMonitor;
-
 import com.gruszecm.mstock.browser.ErrorRecord;
 import com.mac.verec.models.Instrument;
 import com.mac.verec.models.NumberDate;
 import com.mac.verec.models.Quote;
 import com.mac.verec.utils.HostSystem;
+
+import javax.swing.*;
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.PrintWriter;
+import java.util.*;
+import java.util.concurrent.atomic.AtomicInteger;
 
 /**
  * Provides access to EQUIIS/Metastock data file format. Creates a list of
@@ -70,9 +64,7 @@ public class Reader {
 	/**
 	 * Only of interest to subclasses. Needed to provide the right kind of
 	 * <code>Quote</code> array.
-	 * 
-	 * @see com.mac.verec.trading.turtle.TurtleQuote
-	 * @see com.mac.verec.trading.turtle.TurtleReader
+	 *
 	 */
 	protected Quote[] createQuoteArray(int quoteCount) {
 		return new Quote[quoteCount];
@@ -81,9 +73,6 @@ public class Reader {
 	/**
 	 * Only of interest to subclasses. Needed to provide the right kind of
 	 * <code>Quote</code>s.
-	 * 
-	 * @see com.mac.verec.trading.turtle.TurtleQuote
-	 * @see com.mac.verec.trading.turtle.TurtleReader
 	 */
 	protected Quote createQuote(int no, NumberDate date, float open, float high, float low, float close, float interest, float volume) {
 
@@ -115,9 +104,6 @@ public class Reader {
 	 * <i>directory</i> itself as this is where we're going to locate the
 	 * <code>MASTER</code> file that contains the layout and semantics of the
 	 * whole shebang.
-	 * 
-	 * @param progressMonitor
-	 * @param errorRecords
 	 */
 	public Reader(String path, boolean dump, ProgressMonitor progressMonitor, List<ErrorRecord> errorRecords) {
 		this.errorRecords = errorRecords;
@@ -185,10 +171,9 @@ public class Reader {
 
 			pw.println(instr.name + "\t" + instr.symbol);
 			pw.println("Date\tO\tH\tL\tC\tI\tV");
-			for (int i = 0; i < quotes.length; ++i) {
-				Quote q = quotes[i];
-				pw.println(HostSystem.dateToString(q.date) + "\t" + q.open + "\t" + q.high + "\t" + q.low + "\t" + q.close + "\t" + q.interest + "\t" + q.volume);
-			}
+            for (Quote q : quotes) {
+                pw.println(HostSystem.dateToString(q.date) + "\t" + q.open + "\t" + q.high + "\t" + q.low + "\t" + q.close + "\t" + q.interest + "\t" + q.volume);
+            }
 			pw.close();
 		} catch (Exception e) {
 			throw new RuntimeException("Error processing instrument '" + instr + " index=" + index + ", from path='" + path + "'.", e);
@@ -282,7 +267,7 @@ public class Reader {
 	protected Date[] createTradingDays() {
 		Date earliest = null;
 		Date latest = null;
-		Date[] wholePeriod = null;
+		Date[] wholePeriod;
 
 		int instrumentCount = instruments.length;
 
@@ -324,8 +309,7 @@ public class Reader {
 
 		} while (c.getTime().compareTo(latest) <= 0);
 
-		wholePeriod = (Date[]) (dates.toArray(new Date[0]));
-
+		wholePeriod = dates.toArray(new Date[dates.size()]);
 		return wholePeriod;
 	}
 
@@ -380,9 +364,8 @@ public class Reader {
 
 		} catch (Exception e) {
 			e.printStackTrace();
-		} finally {
-			return quotes;
 		}
+        return quotes;
 	}
 
 	/**

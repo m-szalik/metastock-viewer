@@ -1,18 +1,18 @@
 package com.gruszecm.mstock.tests;
 
+import com.mac.verec.models.Instrument;
+import com.mac.verec.models.Quote;
+
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 
-import com.mac.verec.models.Instrument;
-import com.mac.verec.models.Quote;
-
-public abstract class AbstractDateTest extends AbstractMstockTest {
-	private DateFormat df = new SimpleDateFormat("yyyy-MM-dd");
-	private boolean skipInvalid;
+abstract class AbstractDateTest extends AbstractMstockTest {
+	private static final DateFormat df = new SimpleDateFormat("yyyy-MM-dd");
+	private final boolean skipInvalid;
 	
-	public AbstractDateTest(boolean skipInvalid) {
+	protected AbstractDateTest(boolean skipInvalid) {
 		this.skipInvalid = skipInvalid;
 	}
 	
