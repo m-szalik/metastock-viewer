@@ -1,5 +1,7 @@
 # MetaStock Viewer
 
+[![Build Status](https://travis-ci.org/m-szalik/metastock-viewer.svg?branch=master)](https://travis-ci.org/m-szalik/metastock-viewer)
+
 This is reverse engineering project for MetaStock EndOfDay files.
 
 ## Features
