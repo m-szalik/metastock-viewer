@@ -22,5 +22,5 @@ There are two example metaStock archives included in the project
 Read more on [MetaStock Viewer page](http://jsoftware.org/metastock).
 Source code: [GitHub](https://github.com/m-szalik/metastock-viewer)
 
-**This code requires refactorization and cleanup!** 
+
 
