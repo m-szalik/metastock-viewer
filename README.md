@@ -17,6 +17,9 @@ There are two example metaStock archives included in the project
  * meta-example.zip - valid metaStock archive
  * MetaStock.ASX-MiningA-D (invalid archive).zip - invalid metaStock archive
 
+### License
+Apache License 2.0
+
 ## More
 
 Read more on [MetaStock Viewer page](http://jsoftware.org/metastock).
