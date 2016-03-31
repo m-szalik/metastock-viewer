@@ -1,6 +1,6 @@
 package org.jsoftware.mstock.metastock;
 
-import junit.framework.Assert;
+import org.junit.Assert;
 import org.junit.Test;
 
 
