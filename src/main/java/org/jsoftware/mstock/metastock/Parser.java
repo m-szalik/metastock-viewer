@@ -17,7 +17,7 @@ import java.util.Calendar;
 /**
  * The actual code that deals with Metastock idiosyncratic format. Provision
  * for reading:
- * <ul><li>an antire <code>F*.dat</code> file,
+ * <ul><li>an entire <code>F*.dat</code> file,
  * <li>individual <code>byte</code>s or <code>short</code>s,
  * <li>the infamous Microsoft <code>float</code> format, and
  * <li>dates expressed as 20030815.0f for the 15-Aug-2003.
@@ -115,7 +115,7 @@ public final class Parser {
     /**
      * Reads a date in Metastock format.
      *
-     * @return a <code>java.util.Date</code> object formated according to the value
+     * @return a <code>java.util.Date</code> object formatted according to the value
      * of the given float argument interpreted as in 20030815.0f for the
      * 15-Aug-2003 (Not that this date has any significance: it's just
      * today's date! ;-)

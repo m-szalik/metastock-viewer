@@ -158,7 +158,7 @@ public class Reader {
         }
     }
 
-    public void onRecordRead(MasterFileRecord r) {
+    protected void onRecordRead(MasterFileRecord r) {
     }
 
     private void exportTab(Instrument instr, int index, String path) {

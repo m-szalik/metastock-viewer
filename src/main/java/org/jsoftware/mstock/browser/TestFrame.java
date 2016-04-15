@@ -20,7 +20,7 @@ public class TestFrame extends AbstractBrowserFrame {
     private static final long serialVersionUID = 2136500585019304598L;
     private Reader reader;
     private final JTable table;
-    private final JMenuItem copyTestRaportToClipboard;
+    private final JMenuItem copyTestReportToClipboard;
 
     private final AbstractMstockTest[] tests = new AbstractMstockTest[]{new DateFirstTest(false), new DateLastTest(false), new DateFirstTest(true), new DateLastTest(true), new QuotValueTest(), new QuotMinMaxTest(), new DatNoOfRecordsTest()};
 
@@ -51,14 +51,14 @@ public class TestFrame extends AbstractBrowserFrame {
         JMenuBar menuBar = new JMenuBar();
         JMenu menuFile = new JMenu("File");
         menuFile.setMnemonic(KeyEvent.VK_F);
-        copyTestRaportToClipboard = new JMenuItem("Copy test raport to clipboard");
-        copyTestRaportToClipboard.setMnemonic(KeyEvent.VK_C);
-        copyTestRaportToClipboard.setEnabled(false);
-        menuFile.add(copyTestRaportToClipboard);
-        copyTestRaportToClipboard.addActionListener(new ActionListener() {
+        copyTestReportToClipboard = new JMenuItem("Copy test report to clipboard");
+        copyTestReportToClipboard.setMnemonic(KeyEvent.VK_C);
+        copyTestReportToClipboard.setEnabled(false);
+        menuFile.add(copyTestReportToClipboard);
+        copyTestReportToClipboard.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 StringWriter output = new StringWriter();
-                testRaport(output);
+                testReport(output);
                 Transferable contents = new StringSelection(output.getBuffer().toString());
                 Toolkit.getDefaultToolkit().getSystemClipboard().setContents(contents, new ClipboardOwner() {
                     public void lostOwnership(Clipboard clipboard, Transferable contents) {
@@ -83,7 +83,7 @@ public class TestFrame extends AbstractBrowserFrame {
         thread.start();
     }
 
-    private void testRaport(StringWriter output) {
+    private void testReport(StringWriter output) {
         output.append("Test of ...").append('\n').append('\n');
         for (int y = 0; y < table.getRowCount(); y++) {
             for (int x = 0; x < table.getColumnCount(); x++) {
@@ -115,7 +115,7 @@ public class TestFrame extends AbstractBrowserFrame {
                 table.setValueAt(tr, y, x + 1);
             }
         }
-        copyTestRaportToClipboard.setEnabled(true);
+        copyTestReportToClipboard.setEnabled(true);
     }
 
 }

@@ -80,9 +80,9 @@ public class MasterFrame extends AbstractBrowserFrame implements MouseListener, 
     public void internalFrameActivated(InternalFrameEvent e) {
         super.internalFrameActivated(e);
         browser.chartsMI.setEnabled(true);
-        for (Component menuel : browser.chartsMI.getMenuComponents()) {
-            if (menuel instanceof JMenuItem) {
-                JMenuItem jmi = (JMenuItem) menuel;
+        for (Component menuElement : browser.chartsMI.getMenuComponents()) {
+            if (menuElement instanceof JMenuItem) {
+                JMenuItem jmi = (JMenuItem) menuElement;
                 jmi.addActionListener(this);
             }
         }

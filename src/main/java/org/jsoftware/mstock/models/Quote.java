@@ -97,7 +97,7 @@ public class Quote {
     }
 
     /**
-     * Just so that dumps are a bit more menaingful.
+     * Just so that dumps are a bit more meaningful.
      */
     public String toString() {
         return "Date: " + date +

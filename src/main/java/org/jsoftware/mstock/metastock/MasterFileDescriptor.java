@@ -35,7 +35,7 @@ public interface MasterFileDescriptor {
     int LAST_DATE_2 = 31;    // yymmdd
     int LAST_DATE_3 = 32;    // yymmdd
     int TIME_FRAME = 33;    // data format: 'I', 'W', 'Q', 'D', 'M' or 'Y'
-    int IDA_TIME_0 = 34;    // IDA=intraday time base
+    int IDA_TIME_0 = 34;    // IDA=intraDay time base
     int IDA_TIME_1 = 35;
     int SYMBOL_0 = 36;    // stock symbol
     int SYMBOL_LEN = 14;
