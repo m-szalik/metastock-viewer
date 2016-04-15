@@ -42,7 +42,7 @@ public class DateRenderer extends DefaultTableCellRenderer {
             }
             setToolTipText(text.toString());
         } else {
-            throw new RuntimeException();
+            throw new IllegalArgumentException("Value has to be " + Date.class);
         }
     }
 

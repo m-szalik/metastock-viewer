@@ -13,6 +13,7 @@ import java.io.IOException;
 import java.util.List;
 
 public class ErrorReportDialog extends JDialog implements ActionListener {
+    private static final long serialVersionUID = 4238399989390123213L;
     private final JButton buttonOK = new JButton("OK");
     private final JButton buttonSave = new JButton("Save error log");
     private final List<ErrorRecord> errors;
@@ -110,7 +111,5 @@ public class ErrorReportDialog extends JDialog implements ActionListener {
         fw.append("</log>\n");
         fw.close();
     }
-
-    private static final long serialVersionUID = 4238399989390123213L;
 
 }

@@ -179,7 +179,7 @@ public class Reader {
             }
             pw.close();
         } catch (Exception e) {
-            throw new RuntimeException("Error processing instrument '" + instr + " index=" + index + ", from path='" + path + "'.", e);
+            throw new IllegalDataException("Error processing instrument '" + instr + " index=" + index + ", from path='" + path + "'.", e);
         }
     }
 
@@ -271,9 +271,6 @@ public class Reader {
         Date earliest = null;
         Date latest = null;
         Date[] wholePeriod;
-
-        int instrumentCount = instruments.length;
-
         // determine the bounds
         for (Instrument instrument : instruments) {
             Quote[] raw = instrument.rawQuotes;
@@ -343,7 +340,7 @@ public class Reader {
             float[] row = new float[Math.min(r.recordCount, 7)];
 
             if (row.length < 7) {
-                throw new RuntimeException("Bad data format: date and OHLC fields required for " + r);
+                throw new IllegalDataException("Bad data format: date and OHLC fields required for " + r);
             }
 
             quotes = createQuoteArray(quoteCount);

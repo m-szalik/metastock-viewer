@@ -26,7 +26,6 @@ package org.jsoftware.mstock.models;
 import org.jsoftware.mstock.metastock.MasterFileRecord;
 
 public class Instrument {
-    private Integer validQuotas = null;
     /**
      * The default value for the stake. <b>The actual value must
      * be specified when generating trades, otherwise the portfolio
@@ -34,35 +33,7 @@ public class Instrument {
      */
     public static final float DEFAULT_STAKE = 1.0f;
 
-    /**
-     * The name of the instrument, e.g: "DOW JONES INDU A-".
-     */
-    public String name;
-
-    /**
-     * The Reuters assigned symbol of the instrument, e.g: ".DJI".
-     */
-    public String symbol;
-
-    /**
-     * The <i>only traded days included</i> quote data.
-     */
-    public final Quote[] rawQuotes;
-
-    /**
-     * The <i>all business days included</i> quote data.
-     */
-    public Quote[] quotes;
-
-    public Quote[] getQuotes() {
-        return quotes;
-    }
-
-
-    public MasterFileRecord getMasterFileRecord() {
-        return masterFileRecord;
-    }
-
+    private Integer validQuotas = null;
     /**
      * The stake corresponding to that instrument <i>It may depend on
      * the actual broker used. For example, with a spread-betting
@@ -71,16 +42,16 @@ public class Instrument {
      * ;-) -- </i>
      */
     public float stakePerPoint;
-
-    public boolean inUse;
-
     private final MasterFileRecord masterFileRecord;
     private int norec = -1;
-
-
-    public void setNorec(int norec) {
-        this.norec = norec;
-    }
+    /**
+     * The name of the instrument, e.g: "DOW JONES INDU A-".
+     */
+    public String name;
+    /**
+     * The Reuters assigned symbol of the instrument, e.g: ".DJI".
+     */
+    public String symbol;
 
     /**
      * Default constructor that does nothing of significance. Fields
@@ -113,14 +84,35 @@ public class Instrument {
         this.masterFileRecord = r;
     }
 
+    /**
+     * The <i>only traded days included</i> quote data.
+     */
+    public final Quote[] rawQuotes;
+    /**
+     * The <i>all business days included</i> quote data.
+     */
+    public Quote[] quotes;
+
+
+    public Quote[] getQuotes() {
+        return quotes;
+    }
+
+
+    public MasterFileRecord getMasterFileRecord() {
+        return masterFileRecord;
+    }
+
+
+    public void setNorec(int norec) {
+        this.norec = norec;
+    }
+
     public int getValidQuotas() {
-        if (validQuotas == null) {
-            // calculate valid quotas
-            if (quotes != null) {
-                int qc = 0;
-                for (Quote q : quotes) if (q.isValid()) qc++;
-                validQuotas = qc;
-            }
+        if (validQuotas == null && quotes != null) {          // calculate valid quotas
+            int qc = 0;
+            for (Quote q : quotes) if (q.isValid()) qc++;
+            validQuotas = qc;
         }
         return validQuotas == null ? -1 : validQuotas;
     }

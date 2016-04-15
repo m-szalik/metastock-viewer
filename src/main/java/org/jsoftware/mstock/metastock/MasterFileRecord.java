@@ -62,13 +62,15 @@ public final class MasterFileRecord {
 
         symbol = new String(data, recordBase + MasterFileDescriptor.SYMBOL_0, MasterFileDescriptor.SYMBOL_LEN).trim();
         autorun = Parser.readByte(data, recordBase + MasterFileDescriptor.CT_V2_8_FLAG) == (byte) '*';
-        if (fileNum == 0) throw new RuntimeException("Invalid Recored::" + recNum + "  " + this);
+        if (fileNum == 0) {
+            throw new IllegalDataException("Invalid Record:" + recNum + "  " + this);
+        }
     }
 
     public String toString() {
         char[] ft = {fileType};
         char[] tf = {timeFrame};
-        return "fileNum:" + fileNum + "\n" + "fileType:     " + ft + "\n" + "recordLength: " + Integer.toString(recordLength) + "\n" + "recordCount:  " + Integer.toString(recordCount) + "\n" + "issueName:    " + issueName + "\n" + "v28:          " + (v28 ? "true" : "false") + "\n" + "firstDate:    " + (firstDate == null ? "??/??/????" : firstDate.toString()) + "\n" + "lastDate:     " + (lastDate == null ? "??/??/????" : lastDate.toString()) + "\n" + "timeFrame:    " + new String(tf) + "\n" + "idaTime:      " + Integer.toString(idaTime) + "\n" + "symbol:       " + symbol + "\n" + "autorun:      " + (autorun ? "true" : "false") + "\n";
+        return "fileNum:" + fileNum + "\n" + "fileType:     " + ft + "\n" + "recordLength: " + Integer.toString(recordLength) + "\n" + "recordCount:  " + Integer.toString(recordCount) + "\n" + "issueName:    " + issueName + "\n" + "v28:          " + (v28 ? "true" : "false") + "\n" + "firstDate:    " + (firstDate == null ? "??/??/????" : firstDate.toString()) + "\n" + "lastDate:     " + (lastDate == null ? "??/??/????" : lastDate.toString()) + "\n" + "timeFrame:    " + new String(tf) + "\n" + "idaTime:      " + Integer.toString(idaTime) + "\n" + "symbol:       " + symbol + "\n" + "autoRun:      " + (autorun ? "true" : "false") + "\n";
     }
 
     /**

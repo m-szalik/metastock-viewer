@@ -1,7 +1,8 @@
 package org.jsoftware.mstock.metastock;
 
-import org.junit.Assert;
 import org.junit.Test;
+
+import static org.junit.Assert.assertEquals;
 
 
 public class ParserTest {
@@ -12,7 +13,7 @@ public class ParserTest {
         for (int i : values) {
             byte[] buf = writeIntToBytes(i);
             int r = Parser.readInt(buf, 0);
-            Assert.assertEquals(i, r);
+            assertEquals(i, r);
         }
     }
 

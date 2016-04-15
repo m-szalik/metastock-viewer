@@ -110,12 +110,8 @@ public class Quote {
     }
 
     public boolean isValid() {
-        if (close < 0) return false;
-        if (high < 0) return false;
-        if (low < 0) return false;
-        if (open < 0) return false;
-//		if (interest < 0) return false;
+        return ! (close < 0 || high < 0 || low < 0 || open < 0);
+//        if (interest < 0) return false;
 //		if (volume < 0) return false;
-        return true;
     }
 }

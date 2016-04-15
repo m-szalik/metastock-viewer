@@ -15,10 +15,6 @@ public class DataFrame extends AbstractBrowserFrame {
     private JTable table;
     private static RowFilter<DataTableModel, Integer> currentFilter = DataFilter.NONE;
 
-    public enum FilterType {
-        NONE, ONE_INVALID, ALL_INVALID
-    }
-
     public DataFrame(MasterFrame parent, JDesktopPane desktop, Instrument instrument) {
         super(parent, desktop);
         this.instrument = instrument;
@@ -27,7 +23,7 @@ public class DataFrame extends AbstractBrowserFrame {
     }
 
     public static void setFilterType(RowFilter<DataTableModel, Integer> filter, JDesktopPane desktopPane) {
-        if (currentFilter != filter) {
+        if (! filter.equals(currentFilter)) {
             currentFilter = filter;
             for (int i = 0; i < desktopPane.getComponentCount(); i++) {
                 Component cmp = desktopPane.getComponent(i);
