@@ -21,7 +21,9 @@ public class GUIUtil {
             InputStream input = GUIUtil.class.getResourceAsStream(path);
             return ImageIO.read(input);
         } catch (IOException e) {
-            throw new AssertionError("Error reading image \"" + path + "\".", e);
+            AssertionError ex = new AssertionError("Error reading image \"" + path + "\".");
+            ex.initCause(e);
+            throw ex;
         }
     }
 }
