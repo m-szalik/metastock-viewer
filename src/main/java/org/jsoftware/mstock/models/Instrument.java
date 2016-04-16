@@ -45,6 +45,14 @@ public class Instrument {
     private final MasterFileRecord masterFileRecord;
     private int norec = -1;
     /**
+     * The <i>only traded days included</i> quote data.
+     */
+    public final Quote[] rawQuotes;
+    /**
+     * The <i>all business days included</i> quote data.
+     */
+    public Quote[] quotes;
+    /**
      * The name of the instrument, e.g: "DOW JONES INDU A-".
      */
     public String name;
@@ -83,15 +91,6 @@ public class Instrument {
         this.stakePerPoint = stakePerPoint;
         this.masterFileRecord = r;
     }
-
-    /**
-     * The <i>only traded days included</i> quote data.
-     */
-    public final Quote[] rawQuotes;
-    /**
-     * The <i>all business days included</i> quote data.
-     */
-    public Quote[] quotes;
 
 
     public Quote[] getQuotes() {

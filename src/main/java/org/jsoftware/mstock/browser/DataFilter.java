@@ -14,8 +14,8 @@ public abstract class DataFilter extends RowFilter<DataTableModel, Integer> {
     public static final RowFilter<DataTableModel, Integer> ALL_INVALID = new RowFilter<DataTableModel, Integer>() {
         @Override
         public boolean include(javax.swing.RowFilter.Entry<? extends DataTableModel, ? extends Integer> entry) {
-            int c = countInvalid(entry);
-            return c < 4;
+        int c = countInvalid(entry);
+        return c < 4;
         }
     };
 
@@ -32,8 +32,8 @@ public abstract class DataFilter extends RowFilter<DataTableModel, Integer> {
         Object value;
         for (int i = 0; i < entry.getValueCount(); i++) {
             value = entry.getValue(i);
-            if (value instanceof Number) {
-                if (((Number) value).longValue() < 0) c++;
+            if (value instanceof Number && ((Number) value).longValue() < 0) {
+                c++;
             }
         }
         return c;

@@ -23,6 +23,7 @@ import java.util.zip.ZipEntry;
 import java.util.zip.ZipInputStream;
 
 public class MasterFrame extends AbstractBrowserFrame implements MouseListener, Comparable<MasterFrame>, ActionListener {
+    private static final long serialVersionUID = -3281351392506584562L;
     private MasterTabModel model;
     private Reader reader;
     private final File file;
@@ -121,9 +122,6 @@ public class MasterFrame extends AbstractBrowserFrame implements MouseListener, 
     public File getFile() {
         return file;
     }
-
-
-    private static final long serialVersionUID = -3281351392506584562L;
 
     public void mouseClicked(MouseEvent e) {
         if (e.getClickCount() > 1 && e.getSource() instanceof JTable) {
